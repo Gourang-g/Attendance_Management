@@ -1,4 +1,4 @@
 package Project.Attendance.Repository;
 
-public interface AttendanceRepository {
+public interface AttendanceRepository JpaRepository(Attendance,Long) {
 }
