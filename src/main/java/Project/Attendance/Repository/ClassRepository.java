@@ -1,4 +1,4 @@
 package Project.Attendance.Repository;
 
-public interface ClassRepository {
+public interface ClassRepository extends JpaRepository(ClassEntitu,Long){
 }
