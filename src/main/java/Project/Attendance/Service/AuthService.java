@@ -29,7 +29,6 @@ public class AuthService {
         if (classOptional.isEmpty()) {
             return "Class not found!";
         }
-
         // create student
         Student student = new Student();
         student.setRollNo(register.getRollNo());
@@ -39,9 +38,17 @@ public class AuthService {
         student.setYear(register.getYear());
         student.setPassword(register.getPassword());
         student.setClassEntity(classOptional.get());
-
         studentRepository.save(student);
-
         return "Student registered successfully!";
+    }
+
+    //login(student)
+    public String studentLogin(String name, String password) {
+
+        Optional<Student> student = studentRepository.findByName(name);
+        if(student.isPresent() && password.equals(student.get().getPassword())) {
+            return "Student login successfully!";
+        }
+        return "Student login failed!";
     }
 }
