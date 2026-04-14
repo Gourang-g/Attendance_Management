@@ -22,4 +22,8 @@ public class AuthController {
         return authService.studentLogin(name, password);
     }
 
+    @PostMapping("/teacher/login")
+    public String teacherLogin(@RequestParam String name, @RequestParam String password) {
+        return authService.teacherLogin(name, password);
+    }
 }
