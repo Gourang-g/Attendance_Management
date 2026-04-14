@@ -15,6 +15,8 @@ public class AuthService {
     private StudentRepository studentRepository;
     @Autowired
     private ClassRepository classRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     //to register student
     public String registerStudent(StudentRegister register) {
@@ -47,5 +49,13 @@ public class AuthService {
         if(student.isPresent() && password.equals(student.get().getPassword())) {
             return "Student login successfully!";}
         return "Student login failed!";
+    }
+
+    //teacher login
+    public String teacherLogin(String name, String password) {
+        Optional<Teacher> teacher = teacherRepository.findByName(name);
+        if(teacher.isPresent() && password.equals(teacher.get().getPassword())){
+        return "Teacher login successfully!";}
+    return "Teacher login failed!";
     }
 }
