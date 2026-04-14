@@ -23,9 +23,8 @@ public class AuthService {
         if (studentRepository.findByRollNo(register.getRollNo()).isPresent()) {
             return "Student with Rollno already exists!";
         }
-        // fetch class
-        Optional<ClassEntity> classOptional = classRepository.findById(register.getClassId());
 
+        Optional<ClassEntity> classOptional = classRepository.findById(register.getClassId());
         if (classOptional.isEmpty()) {
             return "Class not found!";
         }
@@ -44,11 +43,9 @@ public class AuthService {
 
     //login(student)
     public String studentLogin(String name, String password) {
-
         Optional<Student> student = studentRepository.findByName(name);
         if(student.isPresent() && password.equals(student.get().getPassword())) {
-            return "Student login successfully!";
-        }
+            return "Student login successfully!";}
         return "Student login failed!";
     }
 }
