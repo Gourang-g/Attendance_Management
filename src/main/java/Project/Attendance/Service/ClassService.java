@@ -1,10 +1,14 @@
 package Project.Attendance.Service;
 
+import Project.Attendance.Model.ClassEntity;
+import Project.Attendance.Model.Teacher;
 import Project.Attendance.Repository.ClassRepository;
 import Project.Attendance.Repository.StudentRepository;
 import Project.Attendance.Repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClassService {
@@ -14,4 +18,19 @@ public class ClassService {
     private StudentRepository studentRepository;
     @Autowired
     private TeacherRepository teacherRepository;
+
+    //create class
+    public ClassEntity createClass(ClassEntity classEntity) {
+        return classRepository.save(classEntity);
+    }
+    public List<ClassEntity> getAllClasses(){
+        return classRepository.findAll();
+    }
+    //assign teacher to a class
+    public ClassEntity assignTeacher(Long classId, Long teacherId){
+    ClassEntity classEntity = classRepository.findById(classId).orElseThrow();
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow();
+        classEntity.setTeacher(teacher);
+        return classRepository.save(classEntity);
+    }
 }
