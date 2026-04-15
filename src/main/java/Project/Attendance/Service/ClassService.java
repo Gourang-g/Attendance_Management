@@ -1,6 +1,7 @@
 package Project.Attendance.Service;
 
 import Project.Attendance.Model.ClassEntity;
+import Project.Attendance.Model.Student;
 import Project.Attendance.Model.Teacher;
 import Project.Attendance.Repository.ClassRepository;
 import Project.Attendance.Repository.StudentRepository;
@@ -32,5 +33,13 @@ public class ClassService {
         Teacher teacher = teacherRepository.findById(teacherId).orElseThrow();
         classEntity.setTeacher(teacher);
         return classRepository.save(classEntity);
+    }
+    //assisign student to a class
+    public Student assignStudenttoClass(Long studentId, Long classId)
+    {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+        ClassEntity classEntity = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Class not found"));
+        student.setClassEntity(classEntity);
+        return studentRepository.save(student);
     }
 }

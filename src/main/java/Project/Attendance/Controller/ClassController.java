@@ -1,6 +1,7 @@
 package Project.Attendance.Controller;
 
 import Project.Attendance.Model.ClassEntity;
+import Project.Attendance.Model.Student;
 import Project.Attendance.Repository.ClassRepository;
 import Project.Attendance.Service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/classes")
-public class ClassController {
+public class
+ClassController {
 
     @Autowired
     private ClassService classService;
@@ -27,5 +29,10 @@ public class ClassController {
     public ClassEntity assignTeacher(@PathVariable Long classId,
                                      @PathVariable Long teacherId){
         return classService.assignTeacher(classId, teacherId);
+    }
+    @PutMapping("/{classId}/add-student/{studentId}")
+    public Student assignStudenttoClass(@PathVariable Long classId,
+                                        @PathVariable Long studentId){
+        return classService.assignStudenttoClass(studentId,classId);
     }
 }

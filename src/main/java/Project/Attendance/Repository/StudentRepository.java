@@ -12,6 +12,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     Optional<Student> findByRollNo(String rollNo);
     Optional<Student> findByName(String name);
     Optional<Student> findByNameAndPassword(String name, String password);
+    Optional<Student> findById(Long studentId);
 
     List<Student> findByClassEntity(ClassEntity classEntity);
 }
