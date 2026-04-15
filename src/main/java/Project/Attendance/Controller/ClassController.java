@@ -35,4 +35,9 @@ ClassController {
                                         @PathVariable Long studentId){
         return classService.assignStudenttoClass(studentId,classId);
     }
+    @GetMapping("/{classId}/students")
+    public List<Student> getStudentsByClass(@PathVariable Long classId){
+        //return classService.getStudentsByClass(classId);
+        return classService.getStudentsByClass(classId);
+    }
 }

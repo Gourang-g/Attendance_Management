@@ -42,4 +42,9 @@ public class ClassService {
         student.setClassEntity(classEntity);
         return studentRepository.save(student);
     }
+    //view student
+    public List<Student> getStudentsByClass(Long classId){
+        ClassEntity classEntity = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Class not found"));
+        return studentRepository.findByClassEntity(classEntity);
+    }
 }
