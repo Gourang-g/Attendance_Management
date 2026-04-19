@@ -1,4 +1,4 @@
-package Project.Attendance.DTO;
+package Project.Attendance.Backend.DTO;
 
 import java.util.List;
 

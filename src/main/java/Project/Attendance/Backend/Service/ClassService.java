@@ -1,11 +1,11 @@
-package Project.Attendance.Service;
+package Project.Attendance.Backend.Service;
 
-import Project.Attendance.Model.ClassEntity;
-import Project.Attendance.Model.Student;
-import Project.Attendance.Model.Teacher;
-import Project.Attendance.Repository.ClassRepository;
-import Project.Attendance.Repository.StudentRepository;
-import Project.Attendance.Repository.TeacherRepository;
+import Project.Attendance.Backend.Model.ClassEntity;
+import Project.Attendance.Backend.Model.Student;
+import Project.Attendance.Backend.Model.Teacher;
+import Project.Attendance.Backend.Repository.ClassRepository;
+import Project.Attendance.Backend.Repository.StudentRepository;
+import Project.Attendance.Backend.Repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

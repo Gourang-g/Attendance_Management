@@ -1,4 +1,4 @@
-package Project.Attendance.DTO;
+package Project.Attendance.Backend.DTO;
 
 public class StudentRegister {
     private String rollNo;

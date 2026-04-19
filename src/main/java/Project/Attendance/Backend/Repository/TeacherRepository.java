@@ -1,6 +1,6 @@
-package Project.Attendance.Repository;
+package Project.Attendance.Backend.Repository;
 
-import Project.Attendance.Model.Teacher;
+import Project.Attendance.Backend.Model.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

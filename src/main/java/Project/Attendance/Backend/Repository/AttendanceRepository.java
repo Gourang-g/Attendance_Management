@@ -1,7 +1,7 @@
-package Project.Attendance.Repository;
+package Project.Attendance.Backend.Repository;
 
-import Project.Attendance.Model.Attendance;
-import Project.Attendance.Model.Student;
+import Project.Attendance.Backend.Model.Attendance;
+import Project.Attendance.Backend.Model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

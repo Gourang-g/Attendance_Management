@@ -1,7 +1,7 @@
 
-package Project.Attendance.DTO;
+package Project.Attendance.Backend.DTO;
 
-import Project.Attendance.Model.AttendanceStatus;
+import Project.Attendance.Backend.Model.AttendanceStatus;
 
 public class AttendanceRequest {
 

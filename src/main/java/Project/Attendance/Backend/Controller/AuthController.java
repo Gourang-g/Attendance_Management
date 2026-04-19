@@ -1,7 +1,7 @@
-package Project.Attendance.Controller;
+package Project.Attendance.Backend.Controller;
 
-import Project.Attendance.DTO.StudentRegister;
-import Project.Attendance.Service.AuthService;
+import Project.Attendance.Backend.DTO.StudentRegister;
+import Project.Attendance.Backend.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

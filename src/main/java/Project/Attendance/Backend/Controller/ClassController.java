@@ -1,9 +1,8 @@
-package Project.Attendance.Controller;
+package Project.Attendance.Backend.Controller;
 
-import Project.Attendance.Model.ClassEntity;
-import Project.Attendance.Model.Student;
-import Project.Attendance.Repository.ClassRepository;
-import Project.Attendance.Service.ClassService;
+import Project.Attendance.Backend.Model.ClassEntity;
+import Project.Attendance.Backend.Model.Student;
+import Project.Attendance.Backend.Service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

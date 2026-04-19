@@ -1,9 +1,8 @@
-package Project.Attendance.Repository;
+package Project.Attendance.Backend.Repository;
 
-import Project.Attendance.Model.ClassEntity;
-import Project.Attendance.Model.Student;
+import Project.Attendance.Backend.Model.ClassEntity;
+import Project.Attendance.Backend.Model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;

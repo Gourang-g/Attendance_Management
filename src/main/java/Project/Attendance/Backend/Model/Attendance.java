@@ -1,4 +1,4 @@
-package Project.Attendance.Model;
+package Project.Attendance.Backend.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
