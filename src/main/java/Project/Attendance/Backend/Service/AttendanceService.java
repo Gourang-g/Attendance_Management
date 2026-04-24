@@ -1,8 +1,8 @@
 package Project.Attendance.Backend.Service;
 
-import Project.Attendance.Backend.DTO.AttendanceRequest;
-import Project.Attendance.Backend.DTO.BulkAttendance;
+import Project.Attendance.Backend.DTO.*;
 import Project.Attendance.Backend.Model.Attendance;
+import Project.Attendance.Backend.Model.AttendanceStatus;
 import Project.Attendance.Backend.Model.ClassEntity;
 import Project.Attendance.Backend.Model.Student;
 import Project.Attendance.Backend.Repository.AttendanceRepository;
@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AttendanceService {
@@ -70,5 +73,109 @@ public class AttendanceService {
     public List<Attendance> getClassAttendance(Long classId) {
 
         return attendanceRepository.findByStudent_ClassEntity_Id(classId);
+    }
+
+    //studentreport
+    public StudentReportDTO getStudentReport(Long studentId) {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        List<Attendance> records = attendanceRepository.findByStudentId(studentId);
+
+        long total = records.size();
+
+        long present = records.stream()
+                .filter(a -> a.getStatus() == AttendanceStatus.PRESENT)
+                .count();
+
+        long absent = total - present;
+
+        double percentage = (present * 100.0) / total;
+        percentage = Math.round(percentage * 100.0) / 100.0;
+
+        // Convert to DTO
+        List<AttendanceRecordDTO> recordDTOs = records.stream()
+                .map(a -> new AttendanceRecordDTO(
+                        a.getDate(),
+                        a.getSubject(),
+                        a.getStatus().name()
+                ))
+                .toList();
+
+        return new StudentReportDTO(
+                student.getName(),
+                student.getRollNo(),
+                total,
+                present,
+                absent,
+                percentage
+        );
+    }
+
+    //classreport
+    public List<StudentReportDTO> getClassReport(Long classId) {
+
+        List<Student> students = studentRepository.findByClassEntityId(classId);
+
+        List<StudentReportDTO> report = new ArrayList<>();
+
+        for (Student student : students) {
+
+            List<Attendance> records =
+                    attendanceRepository.findByStudentId(student.getId());
+
+            long total = records.size();
+
+            long present = records.stream()
+                    .filter(a -> a.getStatus() == AttendanceStatus.PRESENT)
+                    .count();
+
+            long absent = total - present;
+
+            double percentage = (total == 0) ? 0 :
+                    (present * 100.0) / total;
+
+            report.add(new StudentReportDTO(
+                    student.getName(),
+                    student.getRollNo(),
+                    total,
+                    present,
+                    absent,
+                    percentage
+            ));
+        }
+
+        return report;
+    }
+
+    //subjectwise
+    public List<SubjectReportDTO> getStudentSubjectReport(Long studentId) {
+
+        List<Attendance> records =
+                attendanceRepository.findByStudentId(studentId);
+
+        Map<String, List<Attendance>> grouped =
+                records.stream().collect(Collectors.groupingBy(Attendance::getSubject));
+
+        List<SubjectReportDTO> result = new ArrayList<>();
+
+        for (String subject : grouped.keySet()) {
+
+            List<Attendance> subjectRecords = grouped.get(subject);
+
+            long total = subjectRecords.size();
+
+            long present = subjectRecords.stream()
+                    .filter(a -> a.getStatus() == AttendanceStatus.PRESENT)
+                    .count();
+
+            double percentage = (total == 0) ? 0 :
+                    (present * 100.0) / total;
+
+            result.add(new SubjectReportDTO(subject, total, present, percentage));
+        }
+
+        return result;
     }
 }

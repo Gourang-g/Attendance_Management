@@ -1,23 +1,24 @@
 package Project.Attendance.Backend.DTO;
 
-public class StudentReportDTO {
+import java.util.List;
 
+public class StudentReportDTO2 {
     private String name;
     private String rollNo;
     private long totalClasses;
     private long present;
     private long absent;
     private double percentage;
+    private List<AttendanceRecordDTO> records;
 
-    public StudentReportDTO(String name, String rollNo,
-                            long totalClasses, long present,
-                            long absent, double percentage) {
+    public StudentReportDTO2(String name, String rollno, long totalClasses, long present, long absent, double percentage, List<AttendanceRecordDTO> records) {
         this.name = name;
-        this.rollNo = rollNo;
+        this.rollNo = rollno;
         this.totalClasses = totalClasses;
         this.present = present;
         this.absent = absent;
         this.percentage = percentage;
+        this.records = records;
     }
 
     public String getName() {
@@ -28,12 +29,12 @@ public class StudentReportDTO {
         this.name = name;
     }
 
-    public String getRollNo() {
+    public String getRollno() {
         return rollNo;
     }
 
-    public void setRollNo(String rollNo) {
-        this.rollNo = rollNo;
+    public void setRollno(String rollno) {
+        this.rollNo = rollno;
     }
 
     public long getTotalClasses() {
@@ -66,5 +67,13 @@ public class StudentReportDTO {
 
     public void setPercentage(double percentage) {
         this.percentage = percentage;
+    }
+
+    public List<AttendanceRecordDTO> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<AttendanceRecordDTO> records) {
+        this.records = records;
     }
 }
