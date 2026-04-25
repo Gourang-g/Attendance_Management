@@ -35,6 +35,11 @@ public class AttendanceController {
     public StudentReportDTO getFullReport(@PathVariable Long id) {
         return attendanceService.getStudentReport(id);
     }
+    // Class report
+    @GetMapping("/class/{classId}/report")
+    public List<StudentReportDTO> getClassReport(@PathVariable Long classId) {
+        return attendanceService.getClassReport(classId);
+    }
 
 
 }
