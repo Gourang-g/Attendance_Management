@@ -40,6 +40,10 @@ public class AttendanceController {
     public List<StudentReportDTO> getClassReport(@PathVariable Long classId) {
         return attendanceService.getClassReport(classId);
     }
-
+    // Subject-wise student report
+    @GetMapping("/student/{id}/subject-report")
+    public List<SubjectReportDTO> getSubjectReport(@PathVariable Long id) {
+        return attendanceService.getStudentSubjectReport(id);
+    }
 
 }
