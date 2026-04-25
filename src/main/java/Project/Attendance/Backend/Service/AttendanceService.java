@@ -91,7 +91,7 @@ public class AttendanceService {
 
         long absent = total - present;
 
-        double percentage = (present * 100.0) / total;
+        double percentage = (total == 0) ? 0 : (present * 100.0) / total;
         percentage = Math.round(percentage * 100.0) / 100.0;
 
         // Convert to DTO
