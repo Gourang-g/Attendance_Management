@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: Attendance
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/attendance_db
+    username: root
+    password: gourang123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true

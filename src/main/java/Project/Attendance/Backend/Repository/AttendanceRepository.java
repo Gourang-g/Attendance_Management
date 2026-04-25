@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findByStudent(Student student);
+    List<Attendance> findByStudentId(Long studentId);
     List<Attendance> findAttendanceByDate(LocalDate date);
     List<Attendance> findByStudentAndDate(Student student, LocalDate date);
     List<Attendance> findByStudent_ClassEntity_Id(Long classId);

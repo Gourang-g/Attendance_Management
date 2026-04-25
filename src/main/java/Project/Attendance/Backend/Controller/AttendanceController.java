@@ -1,6 +1,8 @@
 package Project.Attendance.Backend.Controller;
 
 import Project.Attendance.Backend.DTO.BulkAttendance;
+import Project.Attendance.Backend.DTO.StudentReportDTO;
+import Project.Attendance.Backend.DTO.SubjectReportDTO;
 import Project.Attendance.Backend.Model.Attendance;
 import Project.Attendance.Backend.Service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +29,12 @@ public class AttendanceController {
     public List<Attendance> getclassAttendance(@PathVariable Long classId) {
         return attendanceService.getClassAttendance(classId);
     }
+    //studentrepot
+    // Full report (records + percentage)
+    @GetMapping("/student/{id}/report")
+    public StudentReportDTO getFullReport(@PathVariable Long id) {
+        return attendanceService.getStudentReport(id);
+    }
+
 
 }
