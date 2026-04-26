@@ -19,7 +19,6 @@ public class Attendance {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
-    @JsonIgnore
     private Student student;
 
     @Column(nullable = false)

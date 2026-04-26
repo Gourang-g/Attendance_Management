@@ -1,5 +1,6 @@
 package Project.Attendance.Backend.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,6 +26,7 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "class_id")
+    @JsonIgnore
     private ClassEntity classEntity;
 
     public Student() {}
