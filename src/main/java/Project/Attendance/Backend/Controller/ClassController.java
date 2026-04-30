@@ -2,6 +2,7 @@ package Project.Attendance.Backend.Controller;
 
 import Project.Attendance.Backend.Model.ClassEntity;
 import Project.Attendance.Backend.Model.Student;
+import Project.Attendance.Backend.Repository.ClassRepository;
 import Project.Attendance.Backend.Service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/classes")
+@CrossOrigin
 public class
 ClassController {
 
     @Autowired
     private ClassService classService;
+
 
     @PostMapping("/create")
     public ClassEntity createClass(@RequestBody ClassEntity classEntity) {
@@ -38,5 +41,9 @@ ClassController {
     public List<Student> getStudentsByClass(@PathVariable Long classId){
         //return classService.getStudentsByClass(classId);
         return classService.getStudentsByClass(classId);
+    }
+    @GetMapping("/teacher/{teacherId}")
+    public List<ClassEntity> getClassesByTeacher(@PathVariable Long teacherId){
+        return classService.getClassesByTeacher(teacherId);
     }
 }

@@ -1,6 +1,8 @@
 package Project.Attendance.Backend.Service;
 
+import Project.Attendance.Backend.DTO.LoginResponseDTO;
 import Project.Attendance.Backend.DTO.StudentRegister;
+import Project.Attendance.Backend.DTO.TeacherRegister;
 import Project.Attendance.Backend.Model.ClassEntity;
 import Project.Attendance.Backend.Model.Student;
 import Project.Attendance.Backend.Model.Teacher;
@@ -48,18 +50,53 @@ public class AuthService {
     }
 
     //login(student)
-    public String studentLogin(String name, String password) {
+    public LoginResponseDTO studentLogin(String name, String password) {
         Optional<Student> student = studentRepository.findByName(name);
-        if(student.isPresent() && password.equals(student.get().getPassword())) {
-            return "Student login successfully!";}
-        return "Student login failed!";
+        if (student.isPresent() && password.equals(student.get().getPassword())) {
+            // return "Student login successfully!";}
+            // return "Student login failed!";
+
+            return new LoginResponseDTO(
+                    student.get().getId(),
+                    student.get().getName(),
+                    "student",
+                    "Login Success"
+            );
+        }
+        return null;
+    }
+
+    //teacher register
+    public String registerTeacher(TeacherRegister register){
+        if(teacherRepository.findByName(register.getName()).isPresent()){
+            return "Teacher already exists!";
+        }
+
+        Teacher teacher = new Teacher();
+        teacher.setName(register.getName());
+        teacher.setEmail(register.getEmail());
+        teacher.setSubject(register.getSubject());
+        teacher.setDepartment(register.getDepartment());
+        teacher.setPassword(register.getPassword());
+
+        teacherRepository.save(teacher);
+
+        return "Teacher registered successfully!";
     }
 
     //teacher login
-    public String teacherLogin(String name, String password) {
+    public LoginResponseDTO teacherLogin(String name, String password) {
         Optional<Teacher> teacher = teacherRepository.findByName(name);
-        if(teacher.isPresent() && password.equals(teacher.get().getPassword())){
-        return "Teacher login successfully!";}
-    return "Teacher login failed!";
+        if (teacher.isPresent() && password.equals(teacher.get().getPassword())) {
+//        return "Teacher login successfully!";}
+//    return "Teacher login failed!";
+            return new LoginResponseDTO(
+                    teacher.get().getId(),
+                    teacher.get().getName(),
+                    "teacher",
+                    "Login Success"
+            );
+        }
+        return null;
     }
 }
