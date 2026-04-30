@@ -1,6 +1,9 @@
 package Project.Attendance.Backend.Controller;
 
+import Project.Attendance.Backend.DTO.LoginResponseDTO;
 import Project.Attendance.Backend.DTO.StudentRegister;
+import Project.Attendance.Backend.DTO.TeacherRegister;
+import Project.Attendance.Backend.Model.Teacher;
 import Project.Attendance.Backend.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +21,17 @@ public class AuthController {
     }
 
     @PostMapping("/student/login")
-    public String studentLogin(@RequestParam String name, @RequestParam String password) {
+    public LoginResponseDTO studentLogin(@RequestParam String name, @RequestParam String password) {
         return authService.studentLogin(name, password);
     }
 
+    @PostMapping("/teacher/register")
+    public String registerTeacher(@RequestBody TeacherRegister register) {
+        return authService.registerTeacher(register);
+    }
+
     @PostMapping("/teacher/login")
-    public String teacherLogin(@RequestParam String name, @RequestParam String password) {
+    public LoginResponseDTO teacherLogin(@RequestParam String name, @RequestParam String password) {
         return authService.teacherLogin(name, password);
     }
 }
