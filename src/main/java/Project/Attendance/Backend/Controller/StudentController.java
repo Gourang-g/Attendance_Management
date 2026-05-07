@@ -19,4 +19,9 @@ public class StudentController {
     public List<Student> getStudentsByClass(@PathVariable Long classId){
         return studentRepository.findByClassEntityId(classId);
     }
+
+    @GetMapping
+    public List<Student> getAllStudents(){
+        return studentRepository.findAll();
+    }
 }
