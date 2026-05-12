@@ -18,4 +18,14 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             Student student, LocalDate date, String subject
     );
     boolean existsByStudentAndDate(Student student, LocalDate date);
+
+    List<Attendance> findByStudent_ClassEntity_IdAndSubject(
+            Long classId,
+            String subject
+    );
+    List<Attendance> findByStudent_ClassEntity_IdAndSubjectAndDate(
+            Long classId,
+            String subject,
+            LocalDate date
+    );
 }

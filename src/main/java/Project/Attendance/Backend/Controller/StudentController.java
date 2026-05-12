@@ -24,4 +24,20 @@ public class StudentController {
     public List<Student> getAllStudents(){
         return studentRepository.findAll();
     }
+
+    @GetMapping("/search")
+    public List<Student> searchStudents(@RequestParam String keyword){
+
+        List<Student> byName =
+                studentRepository.findByNameContainingIgnoreCase(keyword);
+
+        List<Student> byRoll =
+                studentRepository.findByRollNoContainingIgnoreCase(keyword);
+
+        if(!byName.isEmpty()){
+            return byName;
+        }
+
+        return byRoll;
+    }
 }

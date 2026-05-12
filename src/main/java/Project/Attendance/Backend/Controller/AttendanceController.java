@@ -8,6 +8,7 @@ import Project.Attendance.Backend.Service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,28 @@ public class AttendanceController {
     @GetMapping("/student/{id}/subject-report")
     public List<SubjectReportDTO> getSubjectReport(@PathVariable Long id) {
         return attendanceService.getStudentSubjectReport(id);
+    }
+
+    @GetMapping("/class/{classId}/subject")
+    public List<Attendance> getAttendanceBySubject(
+            @PathVariable Long classId,
+            @RequestParam String subject
+    ){
+        return attendanceService
+                .getAttendanceByClassAndSubject(classId, subject);
+    }
+    @GetMapping("/class/{classId}/subject/date")
+    public List<Attendance> getAttendanceByDate(
+            @PathVariable Long classId,
+            @RequestParam String subject,
+            @RequestParam LocalDate date
+    ){
+        return attendanceService
+                .getAttendanceByClassSubjectAndDate(
+                        classId,
+                        subject,
+                        date
+                );
     }
 
 }
