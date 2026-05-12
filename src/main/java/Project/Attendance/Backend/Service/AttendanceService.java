@@ -178,4 +178,23 @@ public class AttendanceService {
 
         return result;
     }
+    public List<Attendance> getAttendanceByClassAndSubject(
+            Long classId,
+            String subject
+    ){
+        return attendanceRepository
+                .findByStudent_ClassEntity_IdAndSubject(classId, subject);
+    }
+    public List<Attendance> getAttendanceByClassSubjectAndDate(
+            Long classId,
+            String subject,
+            LocalDate date
+    ){
+        return attendanceRepository
+                .findByStudent_ClassEntity_IdAndSubjectAndDate(
+                        classId,
+                        subject,
+                        date
+                );
+    }
 }

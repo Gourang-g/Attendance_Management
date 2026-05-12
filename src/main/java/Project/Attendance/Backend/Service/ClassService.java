@@ -47,4 +47,7 @@ public class ClassService {
         ClassEntity classEntity = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Class not found"));
         return studentRepository.findByClassEntity(classEntity);
     }
+    public List<ClassEntity> getClassesByTeacher(Long teacherId){
+        return classRepository.findByTeacher_Id(teacherId);
+    }
 }

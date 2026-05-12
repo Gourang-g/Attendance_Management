@@ -28,12 +28,14 @@ public class Attendance {
     @Column(nullable = false)
     private AttendanceStatus status;
 
-    private String subject;
+    @ManyToOne
+    @Column(name = "subject_id", nullable = false)
+    private Subject subject;
 
     public Attendance() {
     }
 
-    public Attendance(Student student, LocalDate date, AttendanceStatus status, String subject) {
+    public Attendance(Student student, LocalDate date, AttendanceStatus status, Subject subject) {
         this.student = student;
         this.date = date;
         this.status = status;
@@ -72,11 +74,11 @@ public class Attendance {
         this.status = status;
     }
 
-    public String getSubject() {
+    public Subject getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(Subject subject) {
         this.subject = subject;
     }
 }

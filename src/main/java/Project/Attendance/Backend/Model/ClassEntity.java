@@ -24,7 +24,6 @@ public class ClassEntity {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
-    @JsonIgnore
     private Teacher teacher;
 
     public ClassEntity() {}
