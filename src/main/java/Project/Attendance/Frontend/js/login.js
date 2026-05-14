@@ -1,5 +1,6 @@
 const BASE_URL = "http://localhost:8080";
-//Login
+
+// Login
 async function loginUser() {
     const role = document.getElementById("role").value;
     const username = document.getElementById("username").value;
@@ -8,51 +9,59 @@ async function loginUser() {
 
     let endpoint = "";
 
-    if(role === "teacher"){
+    if (role === "teacher") {
         endpoint = `/api/auth/teacher/login?name=${username}&password=${password}`;
     }
-    else if(role === "student"){
+    else if (role === "student") {
         endpoint = `/api/auth/student/login?name=${username}&password=${password}`;
     }
-    else if(role === "admin"){
+    else if (role === "admin") {
         endpoint = `/api/admin/login?username=${username}&password=${password}`;
     }
 
-    try{
+    try {
         const response = await fetch(BASE_URL + endpoint, {
             method: "POST"
         });
 
+        // If login failed, do not redirect
+        if (!response.ok) {
+            const errorText = await response.text();
+
+            message.style.color = "red";
+            message.innerText = errorText || "Login Failed";
+            return;
+        }
+
+        // Login successful
         const data = await response.json();
 
-        if(data !== null){
-            message.style.color = "green";
-            message.innerText = "Login Successful";
+        message.style.color = "green";
+        message.innerText = "Login Successful";
 
-            localStorage.setItem("userId", data.id);
-            localStorage.setItem("userName", data.name);
+        localStorage.setItem("userId", data.id);
+        localStorage.setItem("userName", data.name);
+        localStorage.setItem("userRole", role);
 
-            if(role === "teacher"){
-                window.location.href = "teacher.html";
-            }
-            else if(role === "student"){
-                window.location.href = "student.html";
-            }
-            else{
-                window.location.href = "admin.html";
-            }
+        // Redirect based on role
+        if (role === "teacher") {
+            window.location.href = "teacher.html";
         }
-        else{
-            message.style.color = "red";
-            message.innerText = "Login Failed";
+        else if (role === "student") {
+            window.location.href = "student.html";
         }
+        else if(role === "admin")
+            window.location.href = "admin.html";
 
-    }catch(error){
+
+    } catch (error) {
+        message.style.color = "red";
         message.innerText = "Cannot connect to backend";
     }
 }
 
-//logout
-function logout(){
+// Logout
+function logout() {
+    localStorage.clear();
     window.location.href = "index.html";
 }
