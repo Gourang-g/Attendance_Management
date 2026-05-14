@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subject Management</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Subject Management</h1>
+
+    <div class="card">
+        <h2>Add Subject</h2>
+
+        <input type="text" id="subjectName" placeholder="Subject Name (e.g. Data Structures)" />
+
+        <select id="subjectDepartment">
+            <option value="">Select Department</option>
+        </select>
+
+        <select id="subjectSemester">
+            <option value="">Select Semester</option>
+            <option value="1">Semester 1</option>
+            <option value="2">Semester 2</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <option value="5">Semester 5</option>
+            <option value="6">Semester 6</option>
+            <option value="7">Semester 7</option>
+            <option value="8">Semester 8</option>
+        </select>
+
+        <button onclick="addSubject()">Add Subject</button>
+    </div>
+
+    <div class="card">
+        <h2>All Subjects</h2>
+
+        <table border="1" width="100%" cellpadding="10">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject Name</th>
+                <th>Department</th>
+                <th>Semester</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="subjectTableBody"></tbody>
+        </table>
+    </div>
+
+    <button onclick="window.location.href='admin-dashboard.html'">
+        Back to Dashboard
+    </button>
+</div>
+
+<script src="admin.js"></script>
+<script>
+    window.onload = function () {
+        loadDepartmentsForDropdown();
+        loadSubjects();
+    };
+</script>
+</body>
+</html>
