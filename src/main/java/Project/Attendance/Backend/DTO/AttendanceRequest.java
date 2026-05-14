@@ -8,6 +8,7 @@ public class AttendanceRequest {
     private Long studentId;
     private AttendanceStatus status;
 
+
     public Long getStudentId() {
         return studentId;
     }

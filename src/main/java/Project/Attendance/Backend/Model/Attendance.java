@@ -2,13 +2,12 @@ package Project.Attendance.Backend.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(
         name = "attendance",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"student_id", "date", "subject"})
+                @UniqueConstraint(columnNames = {"student_id", "date", "subject_id"})
         }
 )
 public class Attendance {
@@ -29,7 +28,7 @@ public class Attendance {
     private AttendanceStatus status;
 
     @ManyToOne
-    @Column(name = "subject_id", nullable = false)
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
     public Attendance() {
@@ -78,7 +77,7 @@ public class Attendance {
         return subject;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setSubject(Subject subject1) {
+        this.subject = subject1;
     }
 }

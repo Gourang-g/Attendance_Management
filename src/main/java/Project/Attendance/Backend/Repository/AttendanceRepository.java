@@ -2,6 +2,7 @@ package Project.Attendance.Backend.Repository;
 
 import Project.Attendance.Backend.Model.Attendance;
 import Project.Attendance.Backend.Model.Student;
+import Project.Attendance.Backend.Model.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -15,17 +16,17 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findByStudentAndDate(Student student, LocalDate date);
     List<Attendance> findByStudent_ClassEntity_Id(Long classId);
     Optional<Attendance> findByStudentAndDateAndSubject(
-            Student student, LocalDate date, String subject
+            Student student, LocalDate date, Subject subject
     );
     boolean existsByStudentAndDate(Student student, LocalDate date);
 
     List<Attendance> findByStudent_ClassEntity_IdAndSubject(
             Long classId,
-            String subject
+            Subject subject
     );
     List<Attendance> findByStudent_ClassEntity_IdAndSubjectAndDate(
             Long classId,
-            String subject,
+            Subject subject,
             LocalDate date
     );
 }
