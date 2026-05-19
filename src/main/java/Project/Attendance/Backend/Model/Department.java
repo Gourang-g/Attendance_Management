@@ -1,7 +1,6 @@
 package Project.Attendance.Backend.Model;
 
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Entity
 @Table(name = "departments")
