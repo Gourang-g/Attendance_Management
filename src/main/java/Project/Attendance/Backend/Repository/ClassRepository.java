@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface ClassRepository extends JpaRepository<ClassEntity, Long> {
     List<ClassEntity> findByTeacher_Id(Long teacherId);
-
     long countByTeacherId(Long teacherId);
 }

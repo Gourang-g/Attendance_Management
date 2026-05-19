@@ -1,6 +1,5 @@
 package Project.Attendance.Backend.Repository;
 
-import Project.Attendance.Backend.Model.Department;
 import Project.Attendance.Backend.Model.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 

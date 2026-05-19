@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
     Optional<Admin> findByusername(String username);
-    //Optional<Admin> findByusernameAndpassword(String username, String password);
+
 }
