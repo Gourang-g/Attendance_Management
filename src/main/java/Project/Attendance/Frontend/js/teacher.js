@@ -259,6 +259,7 @@ async function loadClassAttendance(){
                 <th>Date</th>
                 <th>Subject</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
     `;
 
@@ -270,6 +271,11 @@ async function loadClassAttendance(){
                 <td>${record.date}</td>
                 <td>${record.subject.name}</td>
                 <td>${record.status}</td>
+                <td>
+                    <button onclick="editAttendance(${record.id}, '${record.status}')">
+                    Edit
+                    </button>
+                    </td>
             </tr>
         `;
     });
@@ -403,4 +409,122 @@ async function getTeacherClasses(){
 
     const response = await fetch(`${BASE_URL}/api/classes/teacher/${teacherId}`);
     return await response.json();
+}
+async function loadTeacherDashboard() {
+    const dashboard = document.getElementById("dashboard");
+    if (!dashboard) return;
+
+    const teacherId = localStorage.getItem("userId");
+
+    const response = await fetch(
+        `${BASE_URL}/api/dashboard/teacher/${teacherId}`
+    );
+    const data = await response.json();
+
+    dashboard.innerHTML = `
+        <div class="dashboard-card"><h4>Assigned Classes</h4><p>${data.assignedClasses}</p></div>
+        <div class="dashboard-card"><h4>Assigned Subjects</h4><p>${data.assignedSubjects}</p></div>
+        <div class="dashboard-card"><h4>Total Students</h4><p>${data.totalStudents}</p></div>
+        <div class="dashboard-card"><h4>Attendance Today</h4><p>${data.attendanceMarkedToday}</p></div>
+        <div class="dashboard-card"><h4>Below 75%</h4><p>${data.lowAttendanceStudents}</p></div>
+    `;
+}
+
+
+async function viewLowAttendance() {
+    const content = document.getElementById("content");
+
+    // Optional threshold input (defaults to 75)
+    const threshold = prompt("Enter attendance threshold (%)", "75");
+
+    // If user cancels the prompt
+    if (threshold === null) {
+        return;
+    }
+
+    const response = await fetch(
+        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`
+    );
+    const students = await response.json();
+
+    if (!students || students.length === 0) {
+        content.innerHTML =
+            `<h3>Low Attendance Students</h3>
+             <p>No students found below ${threshold}%.</p>`;
+        return;
+    }
+
+    let html = `
+        <h3>Low Attendance Students (Below ${threshold}%)</h3>
+
+        <table border="1"
+               width="100%"
+               style="margin-top:20px; border-collapse:collapse;">
+            <tr>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Percentage</th>
+            </tr>
+    `;
+
+    students.forEach(student => {
+        html += `
+            <tr>
+                <td>${student.name}</td>
+                <td>${student.rollNo}</td>
+                <td>${student.className}</td>
+                <td>${student.percentage}%</td>
+            </tr>
+        `;
+    });
+
+    html += `</table>`;
+
+    content.innerHTML = html;
+}
+// Add this function to your main JavaScript file
+
+async function editAttendance(attendanceId, currentStatus) {
+    // Ask for new status
+    const newStatus = prompt(
+        "Enter new status (PRESENT or ABSENT)",
+        currentStatus
+    );
+
+    // If user cancels
+    if (newStatus === null) {
+        return;
+    }
+
+    const status = newStatus.trim().toUpperCase();
+
+    // Validate input
+    if (status !== "PRESENT" && status !== "ABSENT") {
+        alert("Invalid status. Please enter PRESENT or ABSENT.");
+        return;
+    }
+
+    // Update attendance
+    const response = await fetch(
+        `${BASE_URL}/api/attendance/${attendanceId}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ status: status })
+        }
+    );
+
+    if (response.ok) {
+        alert("Attendance updated successfully.");
+
+        // Reload current attendance list
+        // Change this if you want to reload a different view.
+        viewClassAttendance();
+    } else {
+        const errorText = await response.text();
+        alert("Failed to update attendance.\n" + errorText);
+    }
 }

@@ -1,8 +1,6 @@
 package Project.Attendance.Backend.Controller;
 
-import Project.Attendance.Backend.DTO.BulkAttendance;
-import Project.Attendance.Backend.DTO.StudentReportDTO;
-import Project.Attendance.Backend.DTO.SubjectReportDTO;
+import Project.Attendance.Backend.DTO.*;
 import Project.Attendance.Backend.Model.Attendance;
 import Project.Attendance.Backend.Service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,23 +48,37 @@ public class AttendanceController {
     @GetMapping("/class/{classId}/subject")
     public List<Attendance> getAttendanceBySubject(
             @PathVariable Long classId,
-            @RequestParam String subject
-    ){
+            @RequestParam Long subjectId
+    ) {
         return attendanceService
-                .getAttendanceByClassAndSubject(classId, subject);
+                .getAttendanceByClassAndSubject(classId, subjectId);
     }
+
     @GetMapping("/class/{classId}/subject/date")
     public List<Attendance> getAttendanceByDate(
             @PathVariable Long classId,
-            @RequestParam String subject,
+            @RequestParam Long subjectId,
             @RequestParam LocalDate date
-    ){
+    ) {
         return attendanceService
                 .getAttendanceByClassSubjectAndDate(
                         classId,
-                        subject,
+                        subjectId,
                         date
                 );
+    }
+
+    @GetMapping("/low-attendance")
+    public List<LowAttendanceDTO> getLowAttendanceStudents(
+            @RequestParam(defaultValue = "75") double threshold) {
+        return attendanceService.getLowAttendanceStudents(threshold);
+    }
+
+    @PutMapping("/{attendanceId}")
+    public Attendance updateAttendance(
+            @PathVariable Long attendanceId,
+            @RequestBody UpdateAttendanceDTO dto) {
+        return attendanceService.updateAttendance(attendanceId, dto);
     }
 
 }

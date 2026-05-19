@@ -1,9 +1,6 @@
 package Project.Attendance.Backend.Service;
 
-import Project.Attendance.Backend.DTO.AttendanceRequest;
-import Project.Attendance.Backend.DTO.BulkAttendance;
-import Project.Attendance.Backend.DTO.StudentReportDTO;
-import Project.Attendance.Backend.DTO.SubjectReportDTO;
+import Project.Attendance.Backend.DTO.*;
 import Project.Attendance.Backend.Model.Attendance;
 import Project.Attendance.Backend.Model.AttendanceStatus;
 import Project.Attendance.Backend.Model.ClassEntity;
@@ -186,7 +183,6 @@ public class AttendanceService {
         return report;
     }
 
-
     // ===============================
     // SUBJECT-WISE REPORT
     // ===============================
@@ -262,5 +258,56 @@ public class AttendanceService {
                         subject,
                         date
                 );
+    }
+    public List<LowAttendanceDTO> getLowAttendanceStudents(double threshold) {
+        List<Student> students = studentRepository.findAll();
+        List<LowAttendanceDTO> result = new ArrayList<>();
+
+        for (Student student : students) {
+            List<Attendance> records =
+                    attendanceRepository.findByStudentId(student.getId());
+
+            if (records.isEmpty()) {
+                continue;
+            }
+
+            long totalClasses = records.size();
+
+            long present = records.stream()
+                    .filter(record ->
+                            record.getStatus() == AttendanceStatus.PRESENT)
+                    .count();
+
+            double percentage = (present * 100.0) / totalClasses;
+
+            if (percentage < threshold) {
+                String className = student.getClassEntity() != null
+                        ? student.getClassEntity().getClassName()
+                        : "N/A";
+
+                result.add(new LowAttendanceDTO(
+                        student.getName(),
+                        student.getRollNo(),
+                        className,
+                        Math.round(percentage * 100.0) / 100.0
+                ));
+            }
+        }
+
+        return result;
+    }
+
+    public Attendance updateAttendance(Long attendanceId,
+                                       UpdateAttendanceDTO dto) {
+
+        Attendance attendance = attendanceRepository.findById(attendanceId)
+                .orElseThrow(() ->
+                        new RuntimeException("Attendance record not found"));
+
+        attendance.setStatus(
+                AttendanceStatus.valueOf(dto.getStatus().toUpperCase())
+        );
+
+        return attendanceRepository.save(attendance);
     }
 }

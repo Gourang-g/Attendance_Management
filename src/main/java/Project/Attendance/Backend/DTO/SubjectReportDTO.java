@@ -1,16 +1,18 @@
 package Project.Attendance.Backend.DTO;
 
+import Project.Attendance.Backend.Model.Subject;
+
 public class SubjectReportDTO {
-    private String subject;
+    private Subject subject;
     private long total;
     private long present;
     private double percentage;
 
-    public String getSubject() {
+    public Subject getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(Subject subject) {
         this.subject = subject;
     }
 
@@ -38,7 +40,7 @@ public class SubjectReportDTO {
         this.percentage = percentage;
     }
 
-    public SubjectReportDTO(String subject, long total, long present, double percentage) {
+    public SubjectReportDTO(Subject subject, long total, long present, double percentage) {
         this.subject = subject;
         this.total = total;
         this.present = present;

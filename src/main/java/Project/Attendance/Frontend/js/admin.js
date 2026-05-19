@@ -12,6 +12,7 @@ window.onload = function(){
     if(adminWelcome){
         const name = localStorage.getItem("userName");
         adminWelcome.innerText = "Welcome " + name;
+        loadAdminDashboard();
     }
 
     loadClassesForRegister();
@@ -729,4 +730,76 @@ function showDepartmentManagement() {
     loadDepartments();
     loadDepartmentsDropdown();
     loadSubjects();
+}
+
+async function loadAdminDashboard() {
+    const dashboard = document.getElementById("dashboard");
+    if (!dashboard) return;
+
+    const response = await fetch(`${BASE_URL}/api/dashboard/admin`);
+    const data = await response.json();
+
+    dashboard.innerHTML = `
+        <div class="dashboard-card"><h4>Departments</h4><p>${data.totalDepartments}</p></div>
+        <div class="dashboard-card"><h4>Subjects</h4><p>${data.totalSubjects}</p></div>
+        <div class="dashboard-card"><h4>Classes</h4><p>${data.totalClasses}</p></div>
+        <div class="dashboard-card"><h4>Teachers</h4><p>${data.totalTeachers}</p></div>
+        <div class="dashboard-card"><h4>Students</h4><p>${data.totalStudents}</p></div>
+        <div class="dashboard-card"><h4>Attendance Records</h4><p>${data.totalAttendanceRecords}</p></div>
+        <div class="dashboard-card"><h4>Below 75%</h4><p>${data.lowAttendanceStudents}</p></div>
+    `;
+}
+
+
+async function viewLowAttendance() {
+    const content = document.getElementById("content");
+
+    // Optional threshold input (defaults to 75)
+    const threshold = prompt("Enter attendance threshold (%)", "75");
+
+    // If user cancels the prompt
+    if (threshold === null) {
+        return;
+    }
+
+    const response = await fetch(
+        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`
+    );
+    const students = await response.json();
+
+    if (!students || students.length === 0) {
+        content.innerHTML =
+            `<h3>Low Attendance Students</h3>
+             <p>No students found below ${threshold}%.</p>`;
+        return;
+    }
+
+    let html = `
+        <h3>Low Attendance Students (Below ${threshold}%)</h3>
+
+        <table border="1"
+               width="100%"
+               style="margin-top:20px; border-collapse:collapse;">
+            <tr>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Percentage</th>
+            </tr>
+    `;
+
+    students.forEach(student => {
+        html += `
+            <tr>
+                <td>${student.name}</td>
+                <td>${student.rollNo}</td>
+                <td>${student.className}</td>
+                <td>${student.percentage}%</td>
+            </tr>
+        `;
+    });
+
+    html += `</table>`;
+
+    content.innerHTML = html;
 }
