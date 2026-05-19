@@ -1,24 +1,33 @@
+// StudentDashboardDTO.java
 package Project.Attendance.Backend.DTO;
 
-import java.util.List;
+public class StudentDashboardDTO {
 
-public class StudentReportDTO2 {
     private String name;
     private String rollNo;
     private long totalClasses;
     private long present;
     private long absent;
     private double percentage;
-    private List<AttendanceRecordDTO> records;
+    private long subjectsBelow75;
 
-    public StudentReportDTO2(String name, String rollno, long totalClasses, long present, long absent, double percentage, List<AttendanceRecordDTO> records) {
+    public StudentDashboardDTO() {
+    }
+
+    public StudentDashboardDTO(String name,
+                               String rollNo,
+                               long totalClasses,
+                               long present,
+                               long absent,
+                               double percentage,
+                               long subjectsBelow75) {
         this.name = name;
-        this.rollNo = rollno;
+        this.rollNo = rollNo;
         this.totalClasses = totalClasses;
         this.present = present;
         this.absent = absent;
         this.percentage = percentage;
-        this.records = records;
+        this.subjectsBelow75 = subjectsBelow75;
     }
 
     public String getName() {
@@ -29,12 +38,12 @@ public class StudentReportDTO2 {
         this.name = name;
     }
 
-    public String getRollno() {
+    public String getRollNo() {
         return rollNo;
     }
 
-    public void setRollno(String rollno) {
-        this.rollNo = rollno;
+    public void setRollNo(String rollNo) {
+        this.rollNo = rollNo;
     }
 
     public long getTotalClasses() {
@@ -69,11 +78,11 @@ public class StudentReportDTO2 {
         this.percentage = percentage;
     }
 
-    public List<AttendanceRecordDTO> getRecords() {
-        return records;
+    public long getSubjectsBelow75() {
+        return subjectsBelow75;
     }
 
-    public void setRecords(List<AttendanceRecordDTO> records) {
-        this.records = records;
+    public void setSubjectsBelow75(long subjectsBelow75) {
+        this.subjectsBelow75 = subjectsBelow75;
     }
 }

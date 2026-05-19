@@ -17,4 +17,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByClassEntityId(Long classEntityId);
     List<Student> findByNameContainingIgnoreCase(String name);
     List<Student> findByRollNoContainingIgnoreCase(String rollNo);
+
+    long countByClassEntityTeacherId(Long teacherId);
 }

@@ -162,3 +162,23 @@ async function viewSubjectReport() {
 
     content.innerHTML = html;
 }
+
+async function loadStudentDashboard() {
+    const dashboard = document.getElementById("dashboard");
+    if (!dashboard) return;
+
+    const studentId = localStorage.getItem("userId");
+
+    const response = await fetch(
+        `${BASE_URL}/api/dashboard/student/${studentId}`
+    );
+    const data = await response.json();
+
+    dashboard.innerHTML = `
+        <div class="dashboard-card"><h4>Total Classes</h4><p>${data.totalClasses}</p></div>
+        <div class="dashboard-card"><h4>Present</h4><p>${data.present}</p></div>
+        <div class="dashboard-card"><h4>Absent</h4><p>${data.absent}</p></div>
+        <div class="dashboard-card"><h4>Attendance %</h4><p>${data.percentage}%</p></div>
+        <div class="dashboard-card"><h4>Subjects Below 75%</h4><p>${data.subjectsBelow75}</p></div>
+    `;
+}
