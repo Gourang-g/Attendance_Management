@@ -31,7 +31,7 @@ public class SubjectService {
         return subjectRepository.save(subject);
     }
 
-    public List<Subject> getallSubjects(){
+    public List<Subject> getAllSubjects(){
         return subjectRepository.findAll();
     }
     public List<Subject> getSubjectsByDepartment(Long id){

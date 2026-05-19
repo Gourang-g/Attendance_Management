@@ -34,8 +34,8 @@ public class ClassService {
         classEntity.setTeacher(teacher);
         return classRepository.save(classEntity);
     }
-    //assisign student to a class
-    public Student assignStudenttoClass(Long studentId, Long classId)
+    //assign student to a class
+    public Student assignStudentToClass(Long studentId, Long classId)
     {
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
         ClassEntity classEntity = classRepository.findById(classId).orElseThrow(() -> new RuntimeException("Class not found"));

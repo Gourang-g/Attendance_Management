@@ -21,13 +21,11 @@ public class DepartmentService {
         return departmentRepository.save(department);
     }
 
-    public List<Department> getallDepartments(){
+    public List<Department> getAllDepartments(){
         return departmentRepository.findAll();
     }
 
     public void deleteDepartment(Long id) {
         departmentRepository.deleteById(id);
     }
-
-
 }

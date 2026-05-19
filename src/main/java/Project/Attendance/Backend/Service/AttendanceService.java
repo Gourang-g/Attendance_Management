@@ -34,17 +34,12 @@ public class AttendanceService {
     @Autowired
     private SubjectRepository subjectRepository;
 
-
-    // ===============================
-    // MARK ATTENDANCE
-    // ===============================
+    //mark attendance
     public String markAttendance(BulkAttendance request) {
-
-        // Validate class
+        // find class
         ClassEntity classEntity = classRepository.findById(request.getClassId())
                 .orElseThrow(() -> new RuntimeException("Class not found"));
-
-        // Validate subject
+        // find subject
         if (request.getSubjectId() == null) {
             throw new RuntimeException("Subject is required");
         }
@@ -55,9 +50,9 @@ public class AttendanceService {
         LocalDate today = LocalDate.now();
 
         // Save attendance for each student
-        for (AttendanceRequest ar : request.getAttendanceList()) {
+        for (AttendanceRequest attendanceRequest : request.getAttendanceList()) {
 
-            Student student = studentRepository.findById(ar.getStudentId())
+            Student student = studentRepository.findById(attendanceRequest.getStudentId())
                     .orElseThrow(() -> new RuntimeException("Student not found"));
 
             // Verify student belongs to selected class
@@ -79,43 +74,28 @@ public class AttendanceService {
             attendance.setStudent(student);
             attendance.setDate(today);
             attendance.setSubject(subject);
-            attendance.setStatus(ar.getStatus());
+            attendance.setStatus(attendanceRequest.getStatus());
 
             attendanceRepository.save(attendance);
         }
-
         return "Attendance marked successfully";
     }
-
-
-    // ===============================
-    // STUDENT ATTENDANCE
-    // ===============================
+    //view student attendance
     public List<Attendance> getStudentAttendance(Long studentId) {
-
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-
         return attendanceRepository.findByStudent(student);
     }
 
-
-    // ===============================
-    // CLASS ATTENDANCE
-    // ===============================
+    //view attendance
     public List<Attendance> getClassAttendance(Long classId) {
         return attendanceRepository.findByStudent_ClassEntity_Id(classId);
     }
 
-
-    // ===============================
-    // STUDENT REPORT
-    // ===============================
+    //report
     public StudentReportDTO getStudentReport(Long studentId) {
-
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-
         List<Attendance> records = attendanceRepository.findByStudentId(studentId);
 
         long total = records.size();
@@ -142,11 +122,8 @@ public class AttendanceService {
         );
     }
 
-
-    // ===============================
-    // CLASS REPORT
-    // ===============================
-    public List<StudentReportDTO> getClassReport(Long classId) {
+    //class report
+        public List<StudentReportDTO> getClassReport(Long classId) {
 
         List<Student> students = studentRepository.findByClassEntityId(classId);
 
@@ -183,9 +160,7 @@ public class AttendanceService {
         return report;
     }
 
-    // ===============================
     // SUBJECT-WISE REPORT
-    // ===============================
     public List<SubjectReportDTO> getStudentSubjectReport(Long studentId) {
 
         List<Attendance> records = attendanceRepository.findByStudentId(studentId);
@@ -226,12 +201,8 @@ public class AttendanceService {
         return result;
     }
 
-
-    // ===============================
-    // FILTER BY CLASS AND SUBJECT
-    // ===============================
+    // class & subject filter
     public List<Attendance> getAttendanceByClassAndSubject(Long classId, Long subject) {
-
         Subject subject1 = subjectRepository.findById(subject)
                 .orElseThrow(() -> new RuntimeException("Subject not found"));
 
@@ -239,10 +210,7 @@ public class AttendanceService {
                 .findByStudent_ClassEntity_IdAndSubject(classId, subject1);
     }
 
-
-    // ===============================
-    // FILTER BY CLASS, SUBJECT AND DATE
-    // ===============================
+    // FILTER BY Class, Subject AND Date
     public List<Attendance> getAttendanceByClassSubjectAndDate(
             Long classId,
             Long subjectId,

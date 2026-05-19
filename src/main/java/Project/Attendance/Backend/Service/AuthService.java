@@ -26,12 +26,10 @@ public class AuthService {
 
     //to register student
     public String registerStudent(StudentRegister register) {
-
-        // if student already there
+        // student check
         if (studentRepository.findByRollNo(register.getRollNo()).isPresent()) {
-            return "Student with Rollno already exists!";
+            return "Student with Roll no already exists!";
         }
-
         Optional<ClassEntity> classOptional = classRepository.findById(register.getClassId());
         if (classOptional.isEmpty()) {
             return "Class not found!";
@@ -53,8 +51,6 @@ public class AuthService {
     public LoginResponseDTO studentLogin(String name, String password) {
         Optional<Student> student = studentRepository.findByName(name);
         if (student.isPresent() && password.equals(student.get().getPassword())) {
-            // return "Student login successfully!";}
-            // return "Student login failed!";
 
             return new LoginResponseDTO(
                     student.get().getId(),
@@ -88,8 +84,7 @@ public class AuthService {
     public LoginResponseDTO teacherLogin(String name, String password) {
         Optional<Teacher> teacher = teacherRepository.findByName(name);
         if (teacher.isPresent() && password.equals(teacher.get().getPassword())) {
-//        return "Teacher login successfully!";}
-//    return "Teacher login failed!";
+
             return new LoginResponseDTO(
                     teacher.get().getId(),
                     teacher.get().getName(),
