@@ -2,7 +2,6 @@ package Project.Attendance.Backend.Controller;
 
 import Project.Attendance.Backend.Model.Subject;
 import Project.Attendance.Backend.Service.SubjectService;
-import Project.Attendance.Backend.Model.Subject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 @CrossOrigin
 public class SubjectController {
 
-    private SubjectService subjectService;
+    private final SubjectService subjectService;
 
     public SubjectController(SubjectService subjectService) {
         this.subjectService = subjectService;
@@ -27,7 +26,7 @@ public class SubjectController {
     // Get all subjects
     @GetMapping
     public List<Subject> getAllSubjects() {
-        return subjectService.getallSubjects();
+        return subjectService.getAllSubjects();
     }
 
     // Get subjects by department

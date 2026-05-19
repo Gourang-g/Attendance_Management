@@ -2,7 +2,6 @@ package Project.Attendance.Backend.Controller;
 
 import Project.Attendance.Backend.Model.ClassEntity;
 import Project.Attendance.Backend.Model.Student;
-import Project.Attendance.Backend.Repository.ClassRepository;
 import Project.Attendance.Backend.Service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +32,12 @@ ClassController {
         return classService.assignTeacher(classId, teacherId);
     }
     @PutMapping("/{classId}/add-student/{studentId}")
-    public Student assignStudenttoClass(@PathVariable Long classId,
+    public Student assignStudentToClass(@PathVariable Long classId,
                                         @PathVariable Long studentId){
-        return classService.assignStudenttoClass(studentId,classId);
+        return classService.assignStudentToClass(studentId,classId);
     }
     @GetMapping("/{classId}/students")
     public List<Student> getStudentsByClass(@PathVariable Long classId){
-        //return classService.getStudentsByClass(classId);
         return classService.getStudentsByClass(classId);
     }
     @GetMapping("/teacher/{teacherId}")

@@ -3,7 +3,6 @@ package Project.Attendance.Backend.Controller;
 import Project.Attendance.Backend.DTO.LoginResponseDTO;
 import Project.Attendance.Backend.DTO.StudentRegister;
 import Project.Attendance.Backend.DTO.TeacherRegister;
-import Project.Attendance.Backend.Model.Teacher;
 import Project.Attendance.Backend.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
