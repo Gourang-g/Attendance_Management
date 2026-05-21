@@ -7,6 +7,7 @@ public class AttendanceRequest {
 
     private Long studentId;
     private AttendanceStatus status;
+    private String subject;
 
 
     public Long getStudentId() {
@@ -23,5 +24,13 @@ public class AttendanceRequest {
 
     public void setStatus(AttendanceStatus status) {
         this.status = status;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
