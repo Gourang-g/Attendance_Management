@@ -23,6 +23,9 @@ public class Teacher {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role = "TEACHER";
+
     public Teacher() {}
 
     public Teacher(String email, String name, String subject, String department, String password) {
@@ -75,5 +78,17 @@ public class Teacher {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

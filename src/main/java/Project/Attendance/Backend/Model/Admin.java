@@ -19,6 +19,20 @@ public class Admin {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role = "ADMIN";
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public Admin() {}
 

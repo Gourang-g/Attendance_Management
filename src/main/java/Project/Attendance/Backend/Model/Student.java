@@ -24,6 +24,17 @@ public class Student {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role = "STUDENT";
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @ManyToOne
     @JoinColumn(name = "class_id")
     @JsonIgnore
