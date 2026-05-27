@@ -41,7 +41,8 @@ async function loginUser() {
 
         localStorage.setItem("userId", data.id);
         localStorage.setItem("userName", data.name);
-        localStorage.setItem("userRole", role);
+        localStorage.setItem("role", role.toUpperCase());
+        localStorage.setItem("token",data.token);
 
         // Redirect based on role
         if (role === "teacher") {

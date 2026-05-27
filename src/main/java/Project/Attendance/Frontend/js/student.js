@@ -1,4 +1,17 @@
 const BASE_URL = "http://localhost:8080";
+if(localStorage.getItem("role") !== "STUDENT"){
+    window.location.href = "index.html";
+}
+
+function getAuthHeaders() {
+    return {
+        "Authorization":
+            "Bearer " + localStorage.getItem("token"),
+
+        "Content-Type":
+            "application/json"
+    };
+}
 
 window.onload = function(){
     const studentWelcome = document.getElementById("studentWelcome");
@@ -18,7 +31,7 @@ async function viewMyAttendance() {
     const content = document.getElementById("content");
 
     // Get all attendance records
-    const response = await fetch(`${BASE_URL}/api/attendance/student/${studentId}`);
+    const response = await fetch(`${BASE_URL}/api/attendance/student/${studentId}`,{headers: getAuthHeaders() });
     const records = await response.json();
 
     if (records.length === 0) {
@@ -96,7 +109,7 @@ async function viewMyReport() {
     const studentId = localStorage.getItem("userId");
     const content = document.getElementById("content");
 
-    const response = await fetch(`${BASE_URL}/api/attendance/student/${studentId}/report`);
+    const response = await fetch(`${BASE_URL}/api/attendance/student/${studentId}/report`,{ headers: getAuthHeaders() });
     const report = await response.json();
 
     content.innerHTML = `
@@ -116,7 +129,7 @@ async function viewSubjectReport() {
     const content = document.getElementById("content");
 
     const response = await fetch(
-        `${BASE_URL}/api/attendance/student/${studentId}/subject-report`
+        `${BASE_URL}/api/attendance/student/${studentId}/subject-report`,{ headers: getAuthHeaders() }
     );
     const reports = await response.json();
 
@@ -170,7 +183,7 @@ async function loadStudentDashboard() {
     const studentId = localStorage.getItem("userId");
 
     const response = await fetch(
-        `${BASE_URL}/api/dashboard/student/${studentId}`
+        `${BASE_URL}/api/dashboard/student/${studentId}`,{ headers: getAuthHeaders() }
     );
     const data = await response.json();
 

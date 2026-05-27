@@ -16,12 +16,20 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:63342",
-                                "http://127.0.0.1:63342"
+                                "http://127.0.0.1:63342",
+                                "http://localhost:3000",
+                                "http://localhost:8000",
+                                "http://localhost:5500",
+                                "http://localhost:5173",
+                                "file://"  // For local file access
                         )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(false);
+                        .exposedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(true)
+                        .maxAge(3600);
             }
         };
     }
+
 }

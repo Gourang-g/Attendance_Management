@@ -1,4 +1,18 @@
+
 const BASE_URL = "http://localhost:8080";
+if(localStorage.getItem("role") !== "TEACHER"){
+    window.location.href = "index.html";
+}
+
+function getAuthHeaders() {
+    return {
+        "Authorization":
+            "Bearer " + localStorage.getItem("token"),
+
+        "Content-Type":
+            "application/json"
+    };
+}
 
 window.onload = function(){
     const teacherWelcome = document.getElementById("teacherWelcome");
@@ -9,21 +23,26 @@ window.onload = function(){
         teacherWelcome.innerText = "Welcome " + name;
     }
 
-    if(adminWelcome){
-        const name = localStorage.getItem("userName");
-        adminWelcome.innerText = "Welcome " + name;
-    }
-
     loadClassesForRegister();
 }
 //logout
 function logout(){
+    localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("role");
+
     window.location.href = "index.html";
 }
 //toget every class
 async function getAllClasses() {
     try {
-        const response = await fetch(`${BASE_URL}/api/classes`);
+        const response = await fetch(
+            `${BASE_URL}/api/classes`,
+            {
+                headers: getAuthHeaders()
+            }
+        );
 
         if (!response.ok) {
             throw new Error("Failed to load classes");
@@ -39,7 +58,12 @@ async function getAllClasses() {
 
 async function getAllSubjects() {
     try {
-        const response = await fetch(`${BASE_URL}/api/subjects`);
+        const response = await fetch(
+            `${BASE_URL}/api/subjects`,
+            {
+                headers: getAuthHeaders()
+            }
+        );
 
         if (!response.ok) {
             throw new Error("Failed to load subjects");
@@ -104,8 +128,12 @@ async function loadStudents(){
     const classId = document.getElementById("classId").value;
     const studentList = document.getElementById("studentList");
 
-    const response = await fetch(`${BASE_URL}/api/students/class/${classId}`);
-    const students = await response.json();
+    const response = await fetch(
+        `${BASE_URL}/api/students/class/${classId}`,
+        {
+            headers: getAuthHeaders()
+        }
+    );const students = await response.json();
 
     if(students.length === 0){
         studentList.innerHTML = "<p>No students found in this class</p>";
@@ -146,7 +174,7 @@ async function submitAttendance(){
             return;
         }
 
-    const response = await fetch(`${BASE_URL}/api/students/class/${classId}`);
+    const response = await fetch(`${BASE_URL}/api/students/class/${classId}`,{ headers: getAuthHeaders() });
     const students = await response.json();
 
     let attendanceList = [];
@@ -168,9 +196,7 @@ async function submitAttendance(){
 
     const saveResponse = await fetch(`${BASE_URL}/api/attendance/mark`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(attendanceData)
     });
 
@@ -241,6 +267,9 @@ async function loadClassAttendance(){
 
         const response = await fetch(
             `${BASE_URL}/api/attendance/class/${classId}/subject/date?subjectId=${subjectId}&date=${date}`
+        ,{
+        headers: getAuthHeaders()
+        }
         );
 
         const records = await response.json();
@@ -357,7 +386,11 @@ async function loadClassReport() {
     }
 
     try {
-        const response = await fetch(url);
+        const response = await fetch(url,
+        {
+        headers : getAuthHeaders()
+        }
+        );
 
         if (!response.ok) {
             throw new Error("Failed to load report");
@@ -407,7 +440,7 @@ async function loadClassReport() {
 async function getTeacherClasses(){
     const teacherId = localStorage.getItem("userId");
 
-    const response = await fetch(`${BASE_URL}/api/classes/teacher/${teacherId}`);
+    const response = await fetch(`${BASE_URL}/api/classes/teacher/${teacherId}`, { headers: getAuthHeaders() });
     return await response.json();
 }
 async function loadTeacherDashboard() {
@@ -417,7 +450,7 @@ async function loadTeacherDashboard() {
     const teacherId = localStorage.getItem("userId");
 
     const response = await fetch(
-        `${BASE_URL}/api/dashboard/teacher/${teacherId}`
+        `${BASE_URL}/api/dashboard/teacher/${teacherId}`,{ headers: getAuthHeaders() }
     );
     const data = await response.json();
 
@@ -443,7 +476,7 @@ async function viewLowAttendance() {
     }
 
     const response = await fetch(
-        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`
+        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`,{ headers: getAuthHeaders() }
     );
     const students = await response.json();
 
@@ -510,9 +543,7 @@ async function editAttendance(attendanceId, currentStatus) {
         `${BASE_URL}/api/attendance/${attendanceId}`,
         {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: getAuthHeaders,
             body: JSON.stringify({ status: status })
         }
     );

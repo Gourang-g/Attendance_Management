@@ -1,4 +1,17 @@
 const BASE_URL = "http://localhost:8080";
+if(localStorage.getItem("role") !== "ADMIN"){
+    window.location.href = "index.html";
+}
+
+function getAuthHeaders() {
+    return {
+        "Authorization":
+            "Bearer " + localStorage.getItem("token"),
+
+        "Content-Type":
+            "application/json"
+    };
+}
 
 window.onload = function(){
     const teacherWelcome = document.getElementById("teacherWelcome");
@@ -47,7 +60,7 @@ async function createTeacher(){
 
     const response = await fetch(`${BASE_URL}/api/auth/teacher/register`,{
         method:"POST",
-        headers:{"Content-Type":"application/json"},
+        headers: getAuthHeaders(),
         body: JSON.stringify(teacherData)
     });
 
@@ -77,7 +90,7 @@ async function createClass(){
 
     const response = await fetch(`${BASE_URL}/api/classes/create`,{
         method:"POST",
-        headers:{"Content-Type":"application/json"},
+        headers: getAuthHeaders(),
         body: JSON.stringify(classData)
     });
 
@@ -91,12 +104,12 @@ async function showAssignStudent(){
     const content = document.getElementById("content");
 
     const classResponse =
-        await fetch(`${BASE_URL}/api/classes`);
+        await fetch(`${BASE_URL}/api/classes`, { headers: getAuthHeaders() });
 
     const classes = await classResponse.json();
 
     const studentResponse =
-        await fetch(`${BASE_URL}/api/students`);
+        await fetch(`${BASE_URL}/api/students`, { headers: getAuthHeaders() });
 
     const students = await studentResponse.json();
 
@@ -149,7 +162,8 @@ async function assignStudentToClass(){
     const response = await fetch(
         `${BASE_URL}/api/classes/${classId}/add-student/${studentId}`,
         {
-            method:"PUT"
+            method:"PUT",
+            headers: getAuthHeaders()
         }
     );
 
@@ -166,12 +180,12 @@ async function showAssignTeacher(){
     const content = document.getElementById("content");
 
     const classResponse =
-        await fetch(`${BASE_URL}/api/classes`);
+        await fetch(`${BASE_URL}/api/classes`, { headers: getAuthHeaders() });
 
     const classes = await classResponse.json();
 
     const teacherResponse =
-        await fetch(`${BASE_URL}/api/teachers`);
+        await fetch(`${BASE_URL}/api/teachers`, { headers: getAuthHeaders() });
 
     const teachers = await teacherResponse.json();
 
@@ -217,471 +231,476 @@ async function assignTeacherToClass(){
     const classId = document.getElementById("aclassid").value;
     const teacherId = document.getElementById("ateacherid").value;
 
-    const response = await fetch(`${BASE_URL}/api/classes/${classId}/assign-teacher/${teacherId}`,{
-        method:"PUT"
+    const response = await fetch(`${BASE_URL}/api/classes/${classId}/assign-teacher/${teacherId}`, {
+        method: "PUT",
+        headers: getAuthHeaders()
     });
 
     const result = await response.json();
     alert("Teacher Assigned To " + result.className);
-}function showRegisterStudent(){
-     const content = document.getElementById("content");
+}
 
-     content.innerHTML = `
-         <h3>Register Student</h3>
-         <input type="text" id="sroll" placeholder="Roll No">
-         <input type="text" id="sname" placeholder="Student Name">
-         <input type="text" id="sbranch" placeholder="Branch">
-         <input type="text" id="ssem" placeholder="Semester">
-         <input type="text" id="syear" placeholder="Year">
-         <input type="password" id="spass" placeholder="Password">
-         <input type="number" id="sclassid" placeholder="Class ID">
-         <button onclick="registerStudent()">Register Student</button>
-     `;
- }
+function showRegisterStudent(){
+    const content = document.getElementById("content");
+
+    content.innerHTML = `
+        <h3>Register Student</h3>
+        <input type="text" id="sroll" placeholder="Roll No">
+        <input type="text" id="sname" placeholder="Student Name">
+        <input type="text" id="sbranch" placeholder="Branch">
+        <input type="text" id="ssem" placeholder="Semester">
+        <input type="text" id="syear" placeholder="Year">
+        <input type="password" id="spass" placeholder="Password">
+        <input type="number" id="sclassid" placeholder="Class ID">
+        <button onclick="registerStudent()">Register Student</button>
+    `;
+}
 
 //view teachers
- async function viewAllTeachers(){
+async function viewAllTeachers(){
 
-     const content = document.getElementById("content");
+    const content = document.getElementById("content");
 
-     const response =
-         await fetch(`${BASE_URL}/api/teachers`);
+    const response =
+        await fetch(`${BASE_URL}/api/teachers`, { headers: getAuthHeaders() });
 
-     const teachers = await response.json();
+    const teachers = await response.json();
 
-     if(teachers.length === 0){
-         content.innerHTML = "<p>No teachers found</p>";
-         return;
-     }
+    if(teachers.length === 0){
+        content.innerHTML = "<p>No teachers found</p>";
+        return;
+    }
 
-     let html = `
-         <h3>All Teachers</h3>
+    let html = `
+        <h3>All Teachers</h3>
 
-         <table border="1" width="100%"
-         style="margin-top:20px; border-collapse:collapse;">
+        <table border="1" width="100%"
+        style="margin-top:20px; border-collapse:collapse;">
 
-             <tr>
-                 <th>ID</th>
-                 <th>Name</th>
-                 <th>Email</th>
-                 <th>Department</th>
-                 <th>Subject</th>
-             </tr>
-     `;
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Subject</th>
+            </tr>
+    `;
 
-     teachers.forEach(teacher => {
+    teachers.forEach(teacher => {
 
-         html += `
-             <tr>
-                 <td>${teacher.id}</td>
-                 <td>${teacher.name}</td>
-                 <td>${teacher.email}</td>
-                 <td>${teacher.department}</td>
-                 <td>${teacher.subject}</td>
-             </tr>
-         `;
-     });
+        html += `
+            <tr>
+                <td>${teacher.id}</td>
+                <td>${teacher.name}</td>
+                <td>${teacher.email}</td>
+                <td>${teacher.department}</td>
+                <td>${teacher.subject}</td>
+            </tr>
+        `;
+    });
 
-     html += `</table>`;
+    html += `</table>`;
 
-     content.innerHTML = html;
- }
- //view student
- async function viewAllStudents(){
+    content.innerHTML = html;
+}
 
-     const content = document.getElementById("content");
+//view student
+async function viewAllStudents(){
 
-     const response =
-         await fetch(`${BASE_URL}/api/students`);
+    const content = document.getElementById("content");
 
-     const students = await response.json();
+    const response =
+        await fetch(`${BASE_URL}/api/students`, { headers: getAuthHeaders() });
 
-     if(students.length === 0){
-         content.innerHTML = "<p>No students found</p>";
-         return;
-     }
+    const students = await response.json();
 
-     let html = `
-         <h3>All Students</h3>
+    if(students.length === 0){
+        content.innerHTML = "<p>No students found</p>";
+        return;
+    }
 
-         <table border="1" width="100%"
-         style="margin-top:20px; border-collapse:collapse;">
+    let html = `
+        <h3>All Students</h3>
 
-             <tr>
-                 <th>ID</th>
-                 <th>Name</th>
-                 <th>Roll No</th>
-                 <th>Branch</th>
-                 <th>Semester</th>
-                 <th>Year</th>
-             </tr>
-     `;
+        <table border="1" width="100%"
+        style="margin-top:20px; border-collapse:collapse;">
 
-     students.forEach(student => {
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Branch</th>
+                <th>Semester</th>
+                <th>Year</th>
+            </tr>
+    `;
 
-         html += `
-             <tr>
-                 <td>${student.id}</td>
-                 <td>${student.name}</td>
-                 <td>${student.rollNo}</td>
-                 <td>${student.branch}</td>
-                 <td>${student.semester}</td>
-                 <td>${student.year}</td>
-             </tr>
-         `;
-     });
+    students.forEach(student => {
 
-     html += `</table>`;
+        html += `
+            <tr>
+                <td>${student.id}</td>
+                <td>${student.name}</td>
+                <td>${student.rollNo}</td>
+                <td>${student.branch}</td>
+                <td>${student.semester}</td>
+                <td>${student.year}</td>
+            </tr>
+        `;
+    });
 
-     content.innerHTML = html;
- }
- //view class
- async function viewAllClasses(){
+    html += `</table>`;
 
-     const content = document.getElementById("content");
+    content.innerHTML = html;
+}
 
-     const response =
-         await fetch(`${BASE_URL}/api/classes`);
+//view class
+async function viewAllClasses(){
 
-     const classes = await response.json();
+    const content = document.getElementById("content");
 
-     if(classes.length === 0){
-         content.innerHTML = "<p>No classes found</p>";
-         return;
-     }
+    const response =
+        await fetch(`${BASE_URL}/api/classes`, { headers: getAuthHeaders() });
 
-     let html = `
-         <h3>All Classes</h3>
+    const classes = await response.json();
 
-         <table border="1" width="100%"
-         style="margin-top:20px; border-collapse:collapse;">
+    if(classes.length === 0){
+        content.innerHTML = "<p>No classes found</p>";
+        return;
+    }
 
-             <tr>
-                 <th>ID</th>
-                 <th>Class Name</th>
-                 <th>Semester</th>
-                 <th>Year</th>
-                 <th>Teacher Assigned</th>
-             </tr>
-     `;
+    let html = `
+        <h3>All Classes</h3>
 
-     classes.forEach(cls => {
+        <table border="1" width="100%"
+        style="margin-top:20px; border-collapse:collapse;">
 
-         html += `
-             <tr>
-                 <td>${cls.id}</td>
-                 <td>${cls.className}</td>
-                 <td>${cls.semester}</td>
-                 <td>${cls.year}</td>
-                 <td>${cls.teacher ? cls.teacher.name : "Not Assigned"}</td>
-             </tr>
-         `;
-     });
+            <tr>
+                <th>ID</th>
+                <th>Class Name</th>
+                <th>Semester</th>
+                <th>Year</th>
+                <th>Teacher Assigned</th>
+            </tr>
+    `;
 
-     html += `</table>`;
+    classes.forEach(cls => {
 
-     content.innerHTML = html;
- }
+        html += `
+            <tr>
+                <td>${cls.id}</td>
+                <td>${cls.className}</td>
+                <td>${cls.semester}</td>
+                <td>${cls.year}</td>
+                <td>${cls.teacher ? cls.teacher.name : "Not Assigned"}</td>
+            </tr>
+        `;
+    });
 
-  //sync register to adminregister
-  function openStudentRegister(){
-      window.location.href = "register.html";
-  }
-  //search student
-  function showSearchStudent(){
+    html += `</table>`;
 
-      const content = document.getElementById("content");
+    content.innerHTML = html;
+}
 
-      content.innerHTML = `
-          <h3>Search Student</h3>
+//sync register to adminregister
+function openStudentRegister(){
+    window.location.href = "register.html";
+}
 
-          <input type="text"
-                 id="searchKeyword"
-                 placeholder="Enter Name or Roll No">
+//search student
+function showSearchStudent(){
 
-          <button onclick="searchStudent()">
-              Search
-          </button>
+    const content = document.getElementById("content");
 
-          <div id="searchResult"></div>
-      `;
-  }
+    content.innerHTML = `
+        <h3>Search Student</h3>
 
-  async function searchStudent(){
+        <input type="text"
+               id="searchKeyword"
+               placeholder="Enter Name or Roll No">
 
-      const keyword =
-          document.getElementById("searchKeyword").value;
+        <button onclick="searchStudent()">
+            Search
+        </button>
 
-      const response = await fetch(
-          `${BASE_URL}/api/students/search?keyword=${keyword}`
-      );
+        <div id="searchResult"></div>
+    `;
+}
 
-      const students = await response.json();
+async function searchStudent(){
 
-      const resultDiv =
-          document.getElementById("searchResult");
+    const keyword =
+        document.getElementById("searchKeyword").value;
 
-      if(students.length === 0){
-          resultDiv.innerHTML = "<p>No student found</p>";
-          return;
-      }
+    const response = await fetch(
+        `${BASE_URL}/api/students/search?keyword=${keyword}`, { headers: getAuthHeaders() }
+    );
 
-      let html = `
-          <table border="1" width="100%">
-              <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Roll No</th>
-                  <th>Branch</th>
-                  <th>Year</th>
-              </tr>
-      `;
+    const students = await response.json();
 
-      students.forEach(student => {
-          html += `
-              <tr>
-                  <td>${student.id}</td>
-                  <td>${student.name}</td>
-                  <td>${student.rollNo}</td>
-                  <td>${student.branch}</td>
-                  <td>${student.year}</td>
-              </tr>
-          `;
-      });
+    const resultDiv =
+        document.getElementById("searchResult");
 
-      html += `</table>`;
+    if(students.length === 0){
+        resultDiv.innerHTML = "<p>No student found</p>";
+        return;
+    }
 
-      resultDiv.innerHTML = html;
-  }
+    let html = `
+        <table border="1" width="100%">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Branch</th>
+                <th>Year</th>
+            </tr>
+    `;
+
+    students.forEach(student => {
+        html += `
+            <tr>
+                <td>${student.id}</td>
+                <td>${student.name}</td>
+                <td>${student.rollNo}</td>
+                <td>${student.branch}</td>
+                <td>${student.year}</td>
+            </tr>
+        `;
+    });
+
+    html += `</table>`;
+
+    resultDiv.innerHTML = html;
+}
+
 //department Management
 
- /* =========================
-    DEPARTMENT FUNCTIONS
- ========================= */
+/* =========================
+   DEPARTMENT FUNCTIONS
+========================= */
 
- // Load all departments into table
- async function loadDepartments() {
-     const tbody = document.getElementById("departmentTableBody");
-     if (!tbody) return;
+// Load all departments into table
+async function loadDepartments() {
+    const tbody = document.getElementById("departmentTableBody");
+    if (!tbody) return;
 
-     try {
-         const response = await fetch(`${BASE_URL}/api/departments`);
-         const departments = await response.json();
+    try {
+        const response = await fetch(`${BASE_URL}/api/departments`, { headers: getAuthHeaders() });
+        const departments = await response.json();
 
-         tbody.innerHTML = "";
+        tbody.innerHTML = "";
 
-         departments.forEach(dept => {
-             const row = `
-                 <tr>
-                     <td>${dept.id}</td>
-                     <td>${dept.name}</td>
-                     <td>
-                         <button onclick="deleteDepartment(${dept.id})">
-                             Delete
-                         </button>
-                     </td>
-                 </tr>
-             `;
-             tbody.innerHTML += row;
-         });
-     } catch (error) {
-         console.error("Error loading departments:", error);
-         alert("Failed to load departments.");
-     }
- }
+        departments.forEach(dept => {
+            const row = `
+                <tr>
+                    <td>${dept.id}</td>
+                    <td>${dept.name}</td>
+                    <td>
+                        <button onclick="deleteDepartment(${dept.id})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    } catch (error) {
+        console.error("Error loading departments:", error);
+        alert("Failed to load departments.");
+    }
+}
 
- // Add new department
- async function addDepartment() {
-     const nameInput = document.getElementById("departmentName");
-     if (!nameInput) return;
+// Add new department
+async function addDepartment() {
+    const nameInput = document.getElementById("departmentName");
+    if (!nameInput) return;
 
-     const name = nameInput.value.trim();
+    const name = nameInput.value.trim();
 
-     if (name === "") {
-         alert("Please enter department name.");
-         return;
-     }
+    if (name === "") {
+        alert("Please enter department name.");
+        return;
+    }
 
-     try {
-         const response = await fetch(`${BASE_URL}/api/departments`, {
-             method: "POST",
-             headers: {
-                 "Content-Type": "application/json"
-             },
-             body: JSON.stringify({
-                 name: name
-             })
-         });
+    try {
+        const response = await fetch(`${BASE_URL}/api/departments`, {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({
+                name: name
+            })
+        });
 
-         if (response.ok) {
-             alert("Department added successfully.");
-             nameInput.value = "";
-             loadDepartments();
-             loadDepartmentsDropdown(); // refresh subject dropdown
-         } else {
-             const errorText = await response.text();
-             alert("Failed to add department.\n" + errorText);
-         }
-     } catch (error) {
-         console.error("Error adding department:", error);
-         alert("Error adding department.");
-     }
- }
+        if (response.ok) {
+            alert("Department added successfully.");
+            nameInput.value = "";
+            loadDepartments();
+            loadDepartmentsDropdown();
+        } else {
+            const errorText = await response.text();
+            alert("Failed to add department.\n" + errorText);
+        }
+    } catch (error) {
+        console.error("Error adding department:", error);
+        alert("Error adding department.");
+    }
+}
 
- // Delete department
- async function deleteDepartment(id) {
-     if (!confirm("Are you sure you want to delete this department?")) {
-         return;
-     }
+// Delete department
+async function deleteDepartment(id) {
+    if (!confirm("Are you sure you want to delete this department?")) {
+        return;
+    }
 
-     try {
-         const response = await fetch(`${BASE_URL}/api/departments/${id}`, {
-             method: "DELETE"
-         });
+    try {
+        const response = await fetch(`${BASE_URL}/api/departments/${id}`, {
+            method: "DELETE",
+            headers: getAuthHeaders()
+        });
 
-         if (response.ok) {
-             alert("Department deleted successfully.");
-             loadDepartments();
-             loadDepartmentsDropdown();
-         } else {
-             alert("Failed to delete department.");
-         }
-     } catch (error) {
-         console.error("Error deleting department:", error);
-         alert("Error deleting department.");
-     }
- }
+        if (response.ok) {
+            alert("Department deleted successfully.");
+            loadDepartments();
+            loadDepartmentsDropdown();
+        } else {
+            alert("Failed to delete department.");
+        }
+    } catch (error) {
+        console.error("Error deleting department:", error);
+        alert("Error deleting department.");
+    }
+}
 
+/* =========================
+   SUBJECT FUNCTIONS
+========================= */
 
- /* =========================
-    SUBJECT FUNCTIONS
- ========================= */
+// Load departments into dropdown
+async function loadDepartmentsDropdown() {
+    const select = document.getElementById("subjectDepartment");
+    if (!select) return;
 
- // Load departments into dropdown
- async function loadDepartmentsDropdown() {
-     const select = document.getElementById("subjectDepartment");
-     if (!select) return;
+    try {
+        const response = await fetch(`${BASE_URL}/api/departments`, { headers: getAuthHeaders() });
+        const departments = await response.json();
 
-     try {
-         const response = await fetch(`${BASE_URL}/api/departments`);
-         const departments = await response.json();
+        select.innerHTML = '<option value="">Select Department</option>';
 
-         select.innerHTML = '<option value="">Select Department</option>';
+        departments.forEach(dept => {
+            const option = document.createElement("option");
+            option.value = dept.id;
+            option.textContent = dept.name;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error loading departments dropdown:", error);
+    }
+}
 
-         departments.forEach(dept => {
-             const option = document.createElement("option");
-             option.value = dept.id;
-             option.textContent = dept.name;
-             select.appendChild(option);
-         });
-     } catch (error) {
-         console.error("Error loading departments dropdown:", error);
-     }
- }
+// Load all subjects into table
+async function loadSubjects() {
+    const tbody = document.getElementById("subjectTableBody");
+    if (!tbody) return;
 
- // Load all subjects into table
- async function loadSubjects() {
-     const tbody = document.getElementById("subjectTableBody");
-     if (!tbody) return;
+    try {
+        const response = await fetch(`${BASE_URL}/api/subjects`, { headers: getAuthHeaders() });
+        const subjects = await response.json();
 
-     try {
-         const response = await fetch(`${BASE_URL}/api/subjects`);
-         const subjects = await response.json();
+        tbody.innerHTML = "";
 
-         tbody.innerHTML = "";
+        subjects.forEach(subject => {
+            const row = `
+                <tr>
+                    <td>${subject.id}</td>
+                    <td>${subject.code || ""}</td>
+                    <td>${subject.name}</td>
+                    <td>${subject.semester || ""}</td>
+                    <td>${subject.department ? subject.department.name : ""}</td>
+                    <td>
+                        <button onclick="deleteSubject(${subject.id})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    } catch (error) {
+        console.error("Error loading subjects:", error);
+        alert("Failed to load subjects.");
+    }
+}
 
-         subjects.forEach(subject => {
-             const row = `
-                 <tr>
-                     <td>${subject.id}</td>
-                     <td>${subject.code || ""}</td>
-                     <td>${subject.name}</td>
-                     <td>${subject.semester || ""}</td>
-                     <td>${subject.department ? subject.department.name : ""}</td>
-                     <td>
-                         <button onclick="deleteSubject(${subject.id})">
-                             Delete
-                         </button>
-                     </td>
-                 </tr>
-             `;
-             tbody.innerHTML += row;
-         });
-     } catch (error) {
-         console.error("Error loading subjects:", error);
-         alert("Failed to load subjects.");
-     }
- }
+// Add new subject
+async function addSubject() {
+    const code = document.getElementById("subjectCode").value.trim();
+    const name = document.getElementById("subjectName").value.trim();
+    const semester = document.getElementById("subjectSemester").value.trim();
+    const departmentId = document.getElementById("subjectDepartment").value;
 
- // Add new subject
- async function addSubject() {
-     const code = document.getElementById("subjectCode").value.trim();
-     const name = document.getElementById("subjectName").value.trim();
-     const semester = document.getElementById("subjectSemester").value.trim();
-     const departmentId = document.getElementById("subjectDepartment").value;
+    if (name === "" || departmentId === "") {
+        alert("Please fill all required fields.");
+        return;
+    }
 
-     if (name === "" || departmentId === "") {
-         alert("Please fill all required fields.");
-         return;
-     }
+    try {
+        const response = await fetch(`${BASE_URL}/api/subjects`, {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({
+                code: code,
+                name: name,
+                semester: semester,
+                department: {
+                    id: departmentId
+                }
+            })
+        });
 
-     try {
-         const response = await fetch(`${BASE_URL}/api/subjects`, {
-             method: "POST",
-             headers: {
-                 "Content-Type": "application/json"
-             },
-             body: JSON.stringify({
-                 code: code,
-                 name: name,
-                 semester: semester,
-                 department: {
-                     id: departmentId
-                 }
-             })
-         });
+        if (response.ok) {
+            alert("Subject added successfully.");
 
-         if (response.ok) {
-             alert("Subject added successfully.");
+            document.getElementById("subjectCode").value = "";
+            document.getElementById("subjectName").value = "";
+            document.getElementById("subjectSemester").value = "";
+            document.getElementById("subjectDepartment").value = "";
 
-             document.getElementById("subjectCode").value = "";
-             document.getElementById("subjectName").value = "";
-             document.getElementById("subjectSemester").value = "";
-             document.getElementById("subjectDepartment").value = "";
+            loadSubjects();
+        } else {
+            const errorText = await response.text();
+            alert("Failed to add subject.\n" + errorText);
+        }
+    } catch (error) {
+        console.error("Error adding subject:", error);
+        alert("Error adding subject.");
+    }
+}
 
-             loadSubjects();
-         } else {
-             const errorText = await response.text();
-             alert("Failed to add subject.\n" + errorText);
-         }
-     } catch (error) {
-         console.error("Error adding subject:", error);
-         alert("Error adding subject.");
-     }
- }
+// Delete subject
+async function deleteSubject(id) {
+    if (!confirm("Are you sure you want to delete this subject?")) {
+        return;
+    }
 
- // Delete subject
- async function deleteSubject(id) {
-     if (!confirm("Are you sure you want to delete this subject?")) {
-         return;
-     }
+    try {
+        const response = await fetch(`${BASE_URL}/api/subjects/${id}`, {
+            method: "DELETE",
+            headers: getAuthHeaders()
+        });
 
-     try {
-         const response = await fetch(`${BASE_URL}/api/subjects/${id}`, {
-             method: "DELETE"
-         });
+        if (response.ok) {
+            alert("Subject deleted successfully.");
+            loadSubjects();
+        } else {
+            alert("Failed to delete subject.");
+        }
+    } catch (error) {
+        console.error("Error deleting subject:", error);
+        alert("Error deleting subject.");
+    }
+}
 
-         if (response.ok) {
-             alert("Subject deleted successfully.");
-             loadSubjects();
-         } else {
-             alert("Failed to delete subject.");
-         }
-     } catch (error) {
-         console.error("Error deleting subject:", error);
-         alert("Error deleting subject.");
-     }
- }
 function showDepartmentManagement() {
     const content = document.getElementById("content");
 
@@ -750,20 +769,17 @@ async function loadAdminDashboard() {
     `;
 }
 
-
 async function viewLowAttendance() {
     const content = document.getElementById("content");
 
-    // Optional threshold input (defaults to 75)
     const threshold = prompt("Enter attendance threshold (%)", "75");
 
-    // If user cancels the prompt
     if (threshold === null) {
         return;
     }
 
     const response = await fetch(
-        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`
+        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`, { headers: getAuthHeaders() }
     );
     const students = await response.json();
 

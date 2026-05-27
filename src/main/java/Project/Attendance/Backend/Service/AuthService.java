@@ -9,7 +9,9 @@ import Project.Attendance.Backend.Model.Teacher;
 import Project.Attendance.Backend.Repository.ClassRepository;
 import Project.Attendance.Backend.Repository.StudentRepository;
 import Project.Attendance.Backend.Repository.TeacherRepository;
+import Project.Attendance.Security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,8 +19,10 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-
-
+    @Autowired
+    private JwtUtil jwtUtil;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
@@ -43,7 +47,7 @@ public class AuthService {
         student.setBranch(register.getBranch());
         student.setSemester(register.getSemester());
         student.setYear(register.getYear());
-        student.setPassword(register.getPassword());
+        student.setPassword(passwordEncoder.encode(register.getPassword()));
         student.setClassEntity(classOptional.get());
         studentRepository.save(student);
         return "Student registered successfully!";
@@ -52,13 +56,16 @@ public class AuthService {
     //login(student)
     public LoginResponseDTO studentLogin(String name, String password) {
         Optional<Student> student = studentRepository.findByName(name);
-        if (student.isPresent() && password.equals(student.get().getPassword())) {
+        if (student.isPresent() && passwordEncoder.matches(password, student.get().getPassword())) {
+
+            String token = jwtUtil.generateToken(student.get().getName(),"Student" );
 
             return new LoginResponseDTO(
                     student.get().getId(),
                     student.get().getName(),
                     "student",
-                    "Login Success"
+                    "Login Success",
+                    token
             );
         }
         return null;
@@ -75,7 +82,7 @@ public class AuthService {
         teacher.setEmail(register.getEmail());
         teacher.setSubject(register.getSubject());
         teacher.setDepartment(register.getDepartment());
-        teacher.setPassword(register.getPassword());
+        teacher.setPassword(passwordEncoder.encode(register.getPassword()));
 
         teacherRepository.save(teacher);
 
@@ -85,13 +92,16 @@ public class AuthService {
     //teacher login
     public LoginResponseDTO teacherLogin(String name, String password) {
         Optional<Teacher> teacher = teacherRepository.findByName(name);
-        if (teacher.isPresent() && password.equals(teacher.get().getPassword())) {
+        if (teacher.isPresent() && passwordEncoder.matches(password,teacher.get().getPassword())) {
+
+            String token = jwtUtil.generateToken(teacher.get().getName(),"Teacher" );
 
             return new LoginResponseDTO(
                     teacher.get().getId(),
                     teacher.get().getName(),
                     "teacher",
-                    "Login Success"
+                    "Login  Success",
+                    token
             );
         }
         return null;
