@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+<style>
+    .sidebar{
+        width:260px;
+        min-height:100vh;
+        background:#1565c0;
+        color:white;
+        padding:20px;
+        box-sizing:border-box;
+    }
+</style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <!--
+    <h1 id = "teacherWelcome">Teacher Dashboard</h1>
+-->
+        <h1 >Teacher Dashboard</h1>
+    <button onclick="showMarkAttendance()">Mark Attendance</button>
+    <button onclick="viewClassAttendance()">View Class Attendance</button>
+    <button onclick="viewClassReport()">View Class Report</button>
+    <button onclick="viewLowAttendance()">Low Attendance Students</button>
+    <button onclick="logout()">Logout</button>
+
+    </div>
+    <div class="main-content">
+        <div id="content">
+            </div>
+</div>
+</div>
+<script src="js/teacher.js"></script>
+
+</body>
+</html>
