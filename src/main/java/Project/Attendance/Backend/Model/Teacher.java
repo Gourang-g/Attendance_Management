@@ -23,6 +23,7 @@ public class Teacher {
     @Column(nullable = false)
     private String password;
 
+
     @Column(nullable = false)
     private String role = "TEACHER";
 

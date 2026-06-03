@@ -24,6 +24,9 @@ public class Student {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private String role = "STUDENT";
 
@@ -49,6 +52,14 @@ public class Student {
         this.semester = semester;
         this.year = year;
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {

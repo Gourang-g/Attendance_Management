@@ -47,6 +47,7 @@ public class AuthService {
         student.setBranch(register.getBranch());
         student.setSemester(register.getSemester());
         student.setYear(register.getYear());
+        student.setEmail(register.getEmail());
         student.setPassword(passwordEncoder.encode(register.getPassword()));
         student.setClassEntity(classOptional.get());
         studentRepository.save(student);

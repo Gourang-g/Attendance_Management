@@ -7,7 +7,16 @@ public class StudentRegister {
     private String semester;
     private String year;
     private String password;
+    private String email;
     private Long classId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getRollNo() {
         return rollNo;

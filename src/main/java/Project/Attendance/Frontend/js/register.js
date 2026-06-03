@@ -20,6 +20,7 @@ window.onload = function(){
          rollNo: document.getElementById("rroll").value,
          branch: document.getElementById("rbranch").value,
          semester: document.getElementById("rsemester").value,
+         email: document.getElementById("remail").value,
          year: document.getElementById("ryear").value,
          classId: document.getElementById("rclassid").value,
          password: password                                                           //document.getElementById("rpassword").value

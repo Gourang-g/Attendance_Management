@@ -21,7 +21,7 @@ public class CorsConfig {
                                 "http://localhost:8000",
                                 "http://localhost:5500",
                                 "http://localhost:5173",
-                                "file://"  // For local file access
+                                "file://"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
