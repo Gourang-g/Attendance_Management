@@ -24,8 +24,8 @@ services:
         value: prod
       - key: SPRING_JWT_SECRET
         value: mysecretkey1234567890123456789012345678901234567890
-            - key: SERVER_PORT
-              value: "3000"
+      - key: SERVER_PORT
+        value: "3000"
 databases:
   - name: attendance-db
     dbName: attendance_db
