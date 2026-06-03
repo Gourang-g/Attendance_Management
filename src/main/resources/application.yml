@@ -10,11 +10,20 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: validate
+    show-sql: false
     defer-datasource-initialization: true
 
-  server:
-    error:
-      include-stacktrace: never
-      include-message: always
+  security:
+    user:
+      name: gourang
+      password: 1234
+
+  jwt:
+    secret: mysecretkey1234567890123456789012345678901234567890
+    expiration: 86400000
+
+server:
+  error:
+    include-stacktrace: never
+    include-message: always
