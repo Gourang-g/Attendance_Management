@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>  Student Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+body {
+    background: white;
+
+}
+        .reg{
+            background:#1565c0;
+            border:none;
+            margin-top:25px;
+            height:40px;
+            width:300px;
+            color:white;
+            font-size:18px;
+
+        }
+        .register-container{
+            background: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <h1> 🎓 Student Registration</h1>
+
+    <input type="text" id="rname" placeholder="Student Name">
+
+    <input type="text" id="rroll" placeholder="Roll Number">
+
+    <select id="rbranch">
+        <option value="">Select Branch</option>
+        <option value="CSE">CSE</option>
+        <option value="IT">IT</option>
+        <option value="ECE">ECE</option>
+        <option value="ME">ME</option>
+        <option value="CE">CE</option>
+    </select>
+
+    <select id="ryear" onchange="updateSemesterOptions()">
+        <option value="">Select Year</option>
+        <option value="1st">1st</option>
+        <option value="2nd">2nd</option>
+        <option value="3rd">3rd</option>
+        <option value="4th">4th</option>
+    </select>
+
+    <select id="rsemester">
+        <option value="">Select Semester</option>
+    </select>
+
+   <input type="number" id="rclassid" placeholder="Class ID">
+   <!-- <select id="rclassid">
+        <option value="">Select Class</option>
+    </select> -->
+
+    <input type="password" id="rpassword" placeholder="Create Password">
+    <input type="password" id="rconfirm" placeholder="Confirm Password">
+
+    <button class="reg" onclick="registerStudent()">Register</button>
+
+    <p><a href="index.html">Back to Login</a></p>
+    <p><a href="admin.html">Back to admin dashboard</a></p>
+
+</div>
+
+<script src="js/register.js"></script>
+</body>
+</html>
