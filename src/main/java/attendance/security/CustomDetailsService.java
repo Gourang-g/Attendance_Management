@@ -26,29 +26,39 @@ public class CustomDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // Try Admin first
         Admin admin = adminRepository.findByusername(username).orElse(null);
         if (admin != null) {
-            return User.builder().username(admin.getUsername()).password(admin.getPassword()).authorities(new SimpleGrantedAuthority("ROLE_ADMIN")).build();
+            return User.builder()
+                    .username(admin.getUsername())
+                    .password(admin.getPassword())
+                    .authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                    .build();
         }
 
-        Teacher teacher = teacherRepository.findByName(username).orElse(null);
+        // Try Teacher by email
+        Teacher teacher = teacherRepository.findByEmail(username).orElse(null);
         if (teacher != null) {
             return User.builder()
-                    .username(teacher.getName())
+                    .username(teacher.getEmail())
                     .password(teacher.getPassword())
                     .authorities(new SimpleGrantedAuthority("ROLE_TEACHER"))
                     .build();
         }
 
-        Student student = studentRepository.findByName(username).orElse(null);
+        // Try Student by rollNo or email
+        Student student = studentRepository.findByRollNo(username).orElse(null);
+        if (student == null) {
+            student = studentRepository.findByEmail(username).orElse(null);
+        }
         if (student != null) {
             return User.builder()
-                    .username(student.getName())
+                    .username(student.getRollNo())
                     .password(student.getPassword())
                     .authorities(new SimpleGrantedAuthority("ROLE_STUDENT"))
                     .build();
         }
-        throw new UsernameNotFoundException("user not found");
-    }
 
+        throw new UsernameNotFoundException("User not found with username: " + username);
+    }
 }

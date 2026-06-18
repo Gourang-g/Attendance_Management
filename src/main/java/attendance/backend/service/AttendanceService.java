@@ -1,8 +1,6 @@
 package attendance.backend.service;
 
 import attendance.backend.dto.*;
-import attendance.backend.dto.*;
-import attendance.backend.dto.*;
 import attendance.backend.model.Attendance;
 import attendance.backend.model.AttendanceStatus;
 import attendance.backend.model.ClassEntity;

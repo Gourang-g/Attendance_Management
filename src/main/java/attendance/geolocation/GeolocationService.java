@@ -1,14 +1,13 @@
 package attendance.geolocation;
+
 import attendance.backend.model.Student;
 import attendance.backend.model.Attendance;
 import attendance.backend.model.AttendanceStatus;
 import attendance.backend.model.Subject;
-import attendance.backend.repository.AttendanceRepository;
-import attendance.backend.repository.CampusLocationRepository;
-import attendance.backend.repository.StudentLocationRepository;
-import attendance.backend.repository.StudentRepository;
+import attendance.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +18,9 @@ public class GeolocationService {
 
     @Autowired
     private StudentLocationRepository studentLocationRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     @Autowired
     private CampusLocationRepository campusLocationRepository;
@@ -106,16 +108,21 @@ public class GeolocationService {
     private void markAttendanceFromGeolocation(Student student, Long subjectId) {
         // Check if already marked today
         LocalDate today = LocalDate.now();
+
+        // ✅ FIXED: Properly fetch subject from database
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new RuntimeException("Subject not found"));
+
+        // ✅ FIXED: Use the fetched subject object
         Optional<Attendance> existing = attendanceRepository
-                .findByStudentAndDateAndSubject(student, today,
-                        new Subject());
+                .findByStudentAndDateAndSubject(student, today, subject);
 
         if (existing.isEmpty()) {
             Attendance attendance = new Attendance();
             attendance.setStudent(student);
             attendance.setDate(today);
+            attendance.setSubject(subject);  // ✅ FIXED: Now sets the subject!
             attendance.setStatus(AttendanceStatus.PRESENT);
-            // Set subject based on subjectId
             attendanceRepository.save(attendance);
         }
     }

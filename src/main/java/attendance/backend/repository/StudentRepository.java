@@ -2,6 +2,7 @@ package attendance.backend.repository;
 
 import attendance.backend.model.ClassEntity;
 import attendance.backend.model.Student;
+import attendance.backend.model.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByClassEntityId(Long classEntityId);
     List<Student> findByNameContainingIgnoreCase(String name);
     List<Student> findByRollNoContainingIgnoreCase(String rollNo);
+
 
     long countByClassEntityTeacherId(Long teacherId);
 }

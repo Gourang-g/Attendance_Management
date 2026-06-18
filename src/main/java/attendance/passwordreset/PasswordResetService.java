@@ -71,7 +71,7 @@ public class PasswordResetService {
                 userName = admin.get().getName();
             }
         } else {
-            return"If an account with that email exists, a password reset link will be sent.";
+            return "If an account with that email exists, a password reset link will be sent.";
         }
 
         if (!userExists) {
