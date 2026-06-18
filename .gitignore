@@ -33,3 +33,22 @@ build/
 .vscode/
 
 src/main/resources/application.yml
+
+# Sensitive files
+application.yml
+application-prod.yml
+.env
+*.env
+
+# Build files
+target/
+*.jar
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Maven
+.mvn/

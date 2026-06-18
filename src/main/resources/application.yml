@@ -3,10 +3,10 @@ spring:
     name: Attendance
 
   datasource:
-    url: jdbc:mysql://localhost:3306/attendance_db
-    username: root
+    url: jdbc:postgresql://localhost:5432/attendance_db?sslmode=disable
+    username: postgres
     password: gourang123
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -17,14 +17,32 @@ spring:
   security:
     user:
       name: gourang
-      password: 1234
+      password: K9mP@xL2qR7vN!sT
 
   jwt:
-    secret: mysecretkey1234567890123456789012345678901234567890
+    secret: LyPTmjVCPAjfIpAgH+7I0qnW2YaokhSdET1lMisGRds=
     expiration: 86400000
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gouranggangrade382004@gmail.com
+    password: lfwdhqwkkgtcapdp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+  profiles:
+    active: dev
+
 server:
-  port: ${SERVER_PORT:3000}
   error:
     include-stacktrace: never
     include-message: always

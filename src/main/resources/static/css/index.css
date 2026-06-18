@@ -1,0 +1,67 @@
+body{
+            background: linear-gradient(90deg, #efd5ff 0%, #515ada 100%);
+            font-family: Arial, sans-serif;
+            margin:0;
+            padding:0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        .login-container, .dashboard-container{
+
+            background:#ffffff;
+            padding:30px;
+            width:700px;
+            border-radius:12px;
+            /*box-shadow:0 10 30px rgba(0,0,0,0.15);*/
+            text-align:center;
+        }
+        /*
+                h1{
+                    margin-bottom:20px;
+                    color:#2c3e50;
+                }
+        */
+        h1{
+            font-size:36px;
+            color:#0f4c81;
+            margin-bottom:30px;
+            font-weight:700;
+        }
+        h3{
+            color:#34495e;
+            margin-top:20px;
+        }
+
+        select,input,button{
+            width:90%;
+            margin:10px 0;
+            padding:12px;
+            font-size:15px;
+            border-radius:6px;
+        }
+
+        input,select{
+            border:1px solid #ccc;
+            border-color:#1565c0;
+        }
+
+        button{
+            background:#3498db;
+            color:white;
+            border:none;
+            cursor:pointer;
+            transition:0.3s;
+            font-weight:bold;
+        }
+
+        button:hover{
+            background:#2980b9;
+        }
+
+        #message{
+            margin-top:10px;
+            color:red;
+        }

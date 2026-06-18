@@ -17,14 +17,19 @@ services:
             name: attendance-db
             property: password
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
-        value: update
+        value: validate
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_JWT_SECRET
-        value: mysecretkey1234567890123456789012345678901234567890
-      - key: SERVER_PORT
-        value: "3000"
+        sync: false
+      - key: SPRING_MAIL_USERNAME
+        sync: false
+      - key: SPRING_MAIL_PASSWORD
+        sync: false
+      - key: SPRING_SECURITY_USER_NAME
+        sync: false
+      - key: SPRING_SECURITY_USER_PASSWORD
+        sync: false
 databases:
   - name: attendance-db
-    databaseName: attendance_db
-    region: singapore
+    plan: free
