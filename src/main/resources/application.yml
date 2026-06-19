@@ -1,5 +1,6 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:10000}
+  host: 0.0.0.0
   error:
     include-stacktrace: never
     include-message: never
