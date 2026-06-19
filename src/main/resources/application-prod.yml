@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
+    url:  ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -18,28 +18,17 @@ spring:
       password: ${SPRING_SECURITY_USER_PASSWORD}
 
   jwt:
-    secret: ${SPRING_JWT_SECRET}
+    secret: ${JWT_SECRET}
     expiration: 86400000
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${SPRING_MAIL_USERNAME}
-    password: ${SPRING_MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-
-  profiles:
-    active: prod
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+        required: true
 
 server:
   error:
     include-stacktrace: never
-    include-message: always
-  ssl:
-    enabled: true
+    include-message: never
