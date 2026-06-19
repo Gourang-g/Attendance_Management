@@ -1,5 +1,6 @@
 const BASE_URL = "https://onrender.com";
-
+//BASE_URL = "http://localhost:8080"; key word hata diya hai
+//fetch(BASE_URL me se)
 // Login
 async function loginUser() {
     const role = document.getElementById("role").value;
@@ -20,7 +21,7 @@ async function loginUser() {
     }
 
     try {
-        const response = await fetch(BASE_URL + endpoint, {
+        const response = await fetch(endpoint, {
             method: "POST"
         });
 

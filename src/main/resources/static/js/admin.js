@@ -58,7 +58,7 @@ async function createTeacher(){
         password: document.getElementById("tpass").value
     };
 
-    const response = await fetch(`${BASE_URL}/api/auth/teacher/register`,{
+    const response = await fetch(`/api/auth/teacher/register`,{
         method:"POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(teacherData)
@@ -88,7 +88,7 @@ async function createClass(){
         year: document.getElementById("cyear").value
     };
 
-    const response = await fetch(`${BASE_URL}/api/classes/create`,{
+    const response = await fetch(`/api/classes/create`,{
         method:"POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(classData)
@@ -104,12 +104,12 @@ async function showAssignStudent(){
     const content = document.getElementById("content");
 
     const classResponse =
-        await fetch(`${BASE_URL}/api/classes`, { headers: getAuthHeaders() });
+        await fetch(`/api/classes`, { headers: getAuthHeaders() });
 
     const classes = await classResponse.json();
 
     const studentResponse =
-        await fetch(`${BASE_URL}/api/students`, { headers: getAuthHeaders() });
+        await fetch(`/api/students`, { headers: getAuthHeaders() });
 
     const students = await studentResponse.json();
 
@@ -160,7 +160,7 @@ async function assignStudentToClass(){
         document.getElementById("assignStudentClassId").value;
 
     const response = await fetch(
-        `${BASE_URL}/api/classes/${classId}/add-student/${studentId}`,
+        `/api/classes/${classId}/add-student/${studentId}`,
         {
             method:"PUT",
             headers: getAuthHeaders()
@@ -180,12 +180,12 @@ async function showAssignTeacher(){
     const content = document.getElementById("content");
 
     const classResponse =
-        await fetch(`${BASE_URL}/api/classes`, { headers: getAuthHeaders() });
+        await fetch(`/api/classes`, { headers: getAuthHeaders() });
 
     const classes = await classResponse.json();
 
     const teacherResponse =
-        await fetch(`${BASE_URL}/api/teachers`, { headers: getAuthHeaders() });
+        await fetch(`/api/teachers`, { headers: getAuthHeaders() });
 
     const teachers = await teacherResponse.json();
 
@@ -231,7 +231,7 @@ async function assignTeacherToClass(){
     const classId = document.getElementById("aclassid").value;
     const teacherId = document.getElementById("ateacherid").value;
 
-    const response = await fetch(`${BASE_URL}/api/classes/${classId}/assign-teacher/${teacherId}`, {
+    const response = await fetch(`/api/classes/${classId}/assign-teacher/${teacherId}`, {
         method: "PUT",
         headers: getAuthHeaders()
     });
@@ -262,7 +262,7 @@ async function viewAllTeachers(){
     const content = document.getElementById("content");
 
     const response =
-        await fetch(`${BASE_URL}/api/teachers`, { headers: getAuthHeaders() });
+        await fetch(`/api/teachers`, { headers: getAuthHeaders() });
 
     const teachers = await response.json();
 
@@ -310,7 +310,7 @@ async function viewAllStudents(){
     const content = document.getElementById("content");
 
     const response =
-        await fetch(`${BASE_URL}/api/students`, { headers: getAuthHeaders() });
+        await fetch(`/api/students`, { headers: getAuthHeaders() });
 
     const students = await response.json();
 
@@ -360,7 +360,7 @@ async function viewAllClasses(){
     const content = document.getElementById("content");
 
     const response =
-        await fetch(`${BASE_URL}/api/classes`, { headers: getAuthHeaders() });
+        await fetch(`/api/classes`, { headers: getAuthHeaders() });
 
     const classes = await response.json();
 
@@ -433,7 +433,7 @@ async function searchStudent(){
         document.getElementById("searchKeyword").value;
 
     const response = await fetch(
-        `${BASE_URL}/api/students/search?keyword=${keyword}`, { headers: getAuthHeaders() }
+        `/api/students/search?keyword=${keyword}`, { headers: getAuthHeaders() }
     );
 
     const students = await response.json();
@@ -486,7 +486,7 @@ async function loadDepartments() {
     if (!tbody) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/departments`, { headers: getAuthHeaders() });
+        const response = await fetch(`/api/departments`, { headers: getAuthHeaders() });
         const departments = await response.json();
 
         tbody.innerHTML = "";
@@ -524,7 +524,7 @@ async function addDepartment() {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}/api/departments`, {
+        const response = await fetch(`/api/departments`, {
             method: "POST",
             headers: getAuthHeaders(),
             body: JSON.stringify({
@@ -554,7 +554,7 @@ async function deleteDepartment(id) {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}/api/departments/${id}`, {
+        const response = await fetch(`/api/departments/${id}`, {
             method: "DELETE",
             headers: getAuthHeaders()
         });
@@ -582,7 +582,7 @@ async function loadDepartmentsDropdown() {
     if (!select) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/departments`, { headers: getAuthHeaders() });
+        const response = await fetch(`/api/departments`, { headers: getAuthHeaders() });
         const departments = await response.json();
 
         select.innerHTML = '<option value="">Select Department</option>';
@@ -604,7 +604,7 @@ async function loadSubjects() {
     if (!tbody) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/subjects`, { headers: getAuthHeaders() });
+        const response = await fetch(`/api/subjects`, { headers: getAuthHeaders() });
         const subjects = await response.json();
 
         tbody.innerHTML = "";
@@ -645,7 +645,7 @@ async function addSubject() {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}/api/subjects`, {
+        const response = await fetch(`/api/subjects`, {
             method: "POST",
             headers: getAuthHeaders(),
             body: JSON.stringify({
@@ -684,7 +684,7 @@ async function deleteSubject(id) {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}/api/subjects/${id}`, {
+        const response = await fetch(`/api/subjects/${id}`, {
             method: "DELETE",
             headers: getAuthHeaders()
         });
@@ -755,7 +755,7 @@ async function loadAdminDashboard() {
     const dashboard = document.getElementById("dashboard");
     if (!dashboard) return;
 
-    const response = await fetch(`${BASE_URL}/api/dashboard/admin`);
+    const response = await fetch(`/api/dashboard/admin`);
     const data = await response.json();
 
     dashboard.innerHTML = `
@@ -779,7 +779,7 @@ async function viewLowAttendance() {
     }
 
     const response = await fetch(
-        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`, { headers: getAuthHeaders() }
+        `/api/attendance/low-attendance?threshold=${threshold}`, { headers: getAuthHeaders() }
     );
     const students = await response.json();
 

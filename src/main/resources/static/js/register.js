@@ -26,7 +26,7 @@ window.onload = function(){
          password: password                                                           //document.getElementById("rpassword").value
      };
 
-     const response = await fetch(`${BASE_URL}/api/auth/student/register`,{
+     const response = await fetch(`/api/auth/student/register`,{
          method:"POST",
          headers:{"Content-Type":"application/json"},
          body: JSON.stringify(studentData)
@@ -50,7 +50,7 @@ window.onload = function(){
          return;
      }
 
-     const response = await fetch(`${BASE_URL}/api/classes`);
+     const response = await fetch(`/api/classes`);
      const classes = await response.json();
 
      classes.forEach(cls => {

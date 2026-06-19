@@ -1,4 +1,4 @@
-
+//${BASE_URL} hata diya url ki start se
 const BASE_URL = "https://onrender.com";
 if(localStorage.getItem("role") !== "TEACHER"){
     window.location.href = "index.html";
@@ -38,7 +38,7 @@ function logout(){
 async function getAllClasses() {
     try {
         const response = await fetch(
-            `${BASE_URL}/api/classes`,
+            `/api/classes`,
             {
                 headers: getAuthHeaders()
             }
@@ -59,7 +59,7 @@ async function getAllClasses() {
 async function getAllSubjects() {
     try {
         const response = await fetch(
-            `${BASE_URL}/api/subjects`,
+            `/api/subjects`,
             {
                 headers: getAuthHeaders()
             }
@@ -129,7 +129,7 @@ async function loadStudents(){
     const studentList = document.getElementById("studentList");
 
     const response = await fetch(
-        `${BASE_URL}/api/students/class/${classId}`,
+        `/api/students/class/${classId}`,
         {
             headers: getAuthHeaders()
         }
@@ -174,7 +174,7 @@ async function submitAttendance(){
             return;
         }
 
-    const response = await fetch(`${BASE_URL}/api/students/class/${classId}`,{ headers: getAuthHeaders() });
+    const response = await fetch(`/api/students/class/${classId}`,{ headers: getAuthHeaders() });
     const students = await response.json();
 
     let attendanceList = [];
@@ -194,7 +194,7 @@ async function submitAttendance(){
         attendanceList: attendanceList
     };
 
-    const saveResponse = await fetch(`${BASE_URL}/api/attendance/mark`, {
+    const saveResponse = await fetch(`/api/attendance/mark`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify(attendanceData)
@@ -259,14 +259,14 @@ async function loadClassAttendance(){
     const subjectId = document.getElementById("subjectFilter").value;
      const date = document.getElementById("dateFilter").value;
 
-    //const response = await fetch(`${BASE_URL}/api/attendance/class/${classId}`);
+    //const response = await fetch(`/api/attendance/class/${classId}`);
     if (!classId || !subjectId || !date) {
             alert("Please select class, subject, and date.");
             return;
         }
 
         const response = await fetch(
-            `${BASE_URL}/api/attendance/class/${classId}/subject/date?subjectId=${subjectId}&date=${date}`
+            `/api/attendance/class/${classId}/subject/date?subjectId=${subjectId}&date=${date}`
         ,{
         headers: getAuthHeaders()
         }
@@ -378,7 +378,7 @@ async function loadClassReport() {
     }
 
     // Subject is optional
-    let url = `${BASE_URL}/api/attendance/class/${classId}/report`;
+    let url = `/api/attendance/class/${classId}/report`;
 
     // Add subject filter only if selected
     if (subjectId && subjectId !== "") {
@@ -440,7 +440,7 @@ async function loadClassReport() {
 async function getTeacherClasses(){
     const teacherId = localStorage.getItem("userId");
 
-    const response = await fetch(`${BASE_URL}/api/classes/teacher/${teacherId}`, { headers: getAuthHeaders() });
+    const response = await fetch(`/api/classes/teacher/${teacherId}`, { headers: getAuthHeaders() });
     return await response.json();
 }
 async function loadTeacherDashboard() {
@@ -450,7 +450,7 @@ async function loadTeacherDashboard() {
     const teacherId = localStorage.getItem("userId");
 
     const response = await fetch(
-        `${BASE_URL}/api/dashboard/teacher/${teacherId}`,{ headers: getAuthHeaders() }
+        `/api/dashboard/teacher/${teacherId}`,{ headers: getAuthHeaders() }
     );
     const data = await response.json();
 
@@ -476,7 +476,7 @@ async function viewLowAttendance() {
     }
 
     const response = await fetch(
-        `${BASE_URL}/api/attendance/low-attendance?threshold=${threshold}`,{ headers: getAuthHeaders() }
+        `/api/attendance/low-attendance?threshold=${threshold}`,{ headers: getAuthHeaders() }
     );
     const students = await response.json();
 
@@ -540,7 +540,7 @@ async function editAttendance(attendanceId, currentStatus) {
 
     // Update attendance
     const response = await fetch(
-        `${BASE_URL}/api/attendance/${attendanceId}`,
+        `/api/attendance/${attendanceId}`,
         {
             method: "PUT",
             headers: getAuthHeaders,

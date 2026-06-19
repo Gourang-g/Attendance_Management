@@ -1,4 +1,4 @@
-const BASE_URL = "https://onrender.com";
+//const BASE_URL = "https://onrender.com";
 if(localStorage.getItem("role") !== "STUDENT"){
     window.location.href = "index.html";
 }
@@ -31,7 +31,7 @@ async function viewMyAttendance() {
     const content = document.getElementById("content");
 
     // Get all attendance records
-    const response = await fetch(`${BASE_URL}/api/attendance/student/${studentId}`,{headers: getAuthHeaders() });
+    const response = await fetch(`/api/attendance/student/${studentId}`,{headers: getAuthHeaders() });
     const records = await response.json();
 
     if (records.length === 0) {
@@ -109,7 +109,7 @@ async function viewMyReport() {
     const studentId = localStorage.getItem("userId");
     const content = document.getElementById("content");
 
-    const response = await fetch(`${BASE_URL}/api/attendance/student/${studentId}/report`,{ headers: getAuthHeaders() });
+    const response = await fetch(`/api/attendance/student/${studentId}/report`,{ headers: getAuthHeaders() });
     const report = await response.json();
 
     content.innerHTML = `
@@ -129,7 +129,7 @@ async function viewSubjectReport() {
     const content = document.getElementById("content");
 
     const response = await fetch(
-        `${BASE_URL}/api/attendance/student/${studentId}/subject-report`,{ headers: getAuthHeaders() }
+        `/api/attendance/student/${studentId}/subject-report`,{ headers: getAuthHeaders() }
     );
     const reports = await response.json();
 
@@ -183,7 +183,7 @@ async function loadStudentDashboard() {
     const studentId = localStorage.getItem("userId");
 
     const response = await fetch(
-        `${BASE_URL}/api/dashboard/student/${studentId}`,{ headers: getAuthHeaders() }
+        `/api/dashboard/student/${studentId}`,{ headers: getAuthHeaders() }
     );
     const data = await response.json();
 
@@ -222,7 +222,7 @@ async function initializeGeolocationCheckin() {
             };
 
             try {
-                const response = await fetch(`${BASE_URL}/api/geolocation/checkin`, {
+                const response = await fetch(`/api/geolocation/checkin`, {
                     method: 'POST',
                     headers: getAuthHeaders(),
                     body: JSON.stringify(checkinData)
