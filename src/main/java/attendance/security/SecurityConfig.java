@@ -33,6 +33,10 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .anonymous(anon -> anon.authorities("ROLE_ANONYMOUS"))  // Allow anonymous requests
                 .authorizeHttpRequests(auth -> auth
+
+                        // Check that this rule is near the top of your requestMatchers list
+                        .requestMatchers("/", "/index.html").permitAll()
+
                         // ========== PUBLIC ENDPOINTS (No Authentication) ==========
                         .requestMatchers("/api/auth/student/register").permitAll()
                         .requestMatchers("/api/auth/teacher/login").permitAll()

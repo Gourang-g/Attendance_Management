@@ -25,7 +25,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/api/auth/student/register") ||
+        return path.equals("/") ||
+                path.equals("/index.html") ||
+                path.startsWith("/api/auth/student/register") ||
                 path.startsWith("/api/auth/teacher/login") ||
                 path.startsWith("/api/auth/student/login") ||
                 path.startsWith("/api/admin/login") ||
@@ -45,6 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 path.endsWith(".ico") ||
                 path.equals("/favicon.ico");
     }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
