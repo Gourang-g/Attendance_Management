@@ -2,6 +2,10 @@ spring:
   application:
     name: Attendance
 
+  profiles:
+    active: dev
+
+
   datasource:
     url: jdbc:postgresql://localhost:5432/attendance_db?sslmode=disable
     username: postgres
